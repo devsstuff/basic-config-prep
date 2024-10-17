@@ -81,3 +81,50 @@ sudo semanage port -l | grep http
 po defaultu je moguce da selinux to vec ima podeseno pa zato vjerojatno ne treba nista postaviti ako app radi na port 80
 Provjeri postavke za httpd
 sudo getsebool -a | grep httpd
+
+#Postavi da webserver radi s upaljenim selinux na portu 99
+Najprije omogucimo port 99 u httpd
+sudo nano /etc/httpd/conf/httpd.conf I dodaj Listen 99, provjeri I s sudo netstat -tulnp
+Allow port 99 in firewall
+sudo firewall-cmd --add-port 99/tcp --zone public
+sudo firewall-cmd  --runtime-to-permanent
+Provjeri sudo semanage port -l | grep http
+Dodaj port u listu http_port_t sudo semanage port -a -t http_port_t -p tcp 99
+
+#Podesi posluzivanje aplikacije iz foldera koji nije u /var/www, npr. /web-aplikacija
+Dodaj folder, kreiraj vhost I podesi da gadja /web-aplikacija
+Provjeri kontext /var/www I /web-aplikacija da mozemo vidjeti sto trebamo podesiti 
+sudo ls -laZ /var/www
+sudo ls -laZ /web-aplikacija
+We need to change contenxt from default to httpd_sys_content_t. We will change it to all
+under /web-aplikacija folder.
+sudo semanage fcontext -a -t httpd_sys_content_t “/web-aplikacija(/.*)?” - ovo radi za sve foldere unutar
+sudo restorecon -Rv /web-aplikacija – restore configuration
+Add to web-aplilacija httpd conf file
+<Directory /web-aplikacija>
+	Require all granted
+</Directory>
+curl http://www.test.local:99
+
+**Postavi da mysql radi s upaljenim firewallom I selinuxom**
+Za testiranje s workstation koristit cemo mysql client se pokusamo spojiti na mysql server na drugom serveru
+sudo dnf install mysql -y
+Kreiraj usera u mysql koji ima pristup sa svih ip adresa radi lakseg testiranja, ako vec ne postoji
+Defaultni port je 3306, ako zelimo dodati drugi port dodajemo ga u 
+sudo nano /etc/my.cnf.d/mysql-server.cnf
+I dodaom opciju npr. port=3307, ali najprije ugasi selinux, firewalld I mysql tako da nema problema oko promjene porta.
+Dalje omogucujemo taj port u selinux I firewalld
+provjerimo koji su portovi omoguceni 
+semanage port -l | grep mysql
+sudo semanage port -a -t mysqld_port_t -p tcp 3307
+Provjerimo I u firewall servise I portove u public zoni
+sudo firewall-cmd --list-all 
+Dodajmo servis mysql
+sudo firewall-cmd --add-service mysql --zone public 
+Dodajmo port 3306 jer nije dodan
+sudo firewall-cmd --add-port 3306/tcp --zone public
+Postavimo da se postavke zadrze
+sudo firewall-cmd  --runtime-to-permanent
+Na workstation testiramo pristup ako smo instalirali mysql client
+mysql -u user -p -h <ip>  - ako se spajamo na defaultni port 3306
+mysql -u user -p -h <ip> -P 3307 – ako se spajamo na port 3307
