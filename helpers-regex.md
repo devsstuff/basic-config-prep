@@ -12,7 +12,7 @@ Find all words that contain an accented character awk '/[\x80-\xFF]/' ili
 
 Words with special characters 
 
-grep -P '\w*[^\x00-\x7F]\w*' ili awk '/\w*[^\x00-\x7F]\w*/'
+     grep -P '\w*[^\x00-\x7F]\w*' ili awk '/\w*[^\x00-\x7F]\w*/'
 
 Find all words that have exactly five letters 
 
