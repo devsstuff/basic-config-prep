@@ -13,9 +13,11 @@ Find all words that contain an accented character awk '/[\x80-\xFF]/' ili
 Words with special characters grep -P '\w*[^\x00-\x7F]\w*' ili awk '/\w*[^\x00-\x7F]\w*/'
 
 Find all words that have exactly five letters grep -E “^[a-zA-Z]{5}$ ” but length is 5
+
      5 letters no mater length grep -o -E “[a-zA-Z]{5}”
      5 letters no matter letters or numbers grep “^.{5}$”
      5 letters  grep -E -o '\b\w{5}\b'
+     
 Find all words that start with a capital letter grep “ ^ [A-Z]”
 Find all words that have a special character (e.g., é, Å).
 Find all words that end with the letter "e" grep “ e$ ”
