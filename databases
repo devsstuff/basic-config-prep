@@ -1,0 +1,28 @@
+MYSQL
+mysql-server installation
+sudo dnf install mysql-server -y
+sudo systemctl enable --now mysqld
+sudo mysql_secure_installation
+sudo mysql -u root -p
+
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+DROP USER ‘user’@’host’;
+
+GRANT ALL PRIVILEGES ON db.* TO 'user'@'localhost'; - database privilegees
+GRANT ALL PRIVILEGES ON db.table TO 'user'@'localhost'; - table privileges
+
+SELECT user, host FROM mysql.user; - check user
+SHOW GRANTS FOR 'username'@'host'; - show user grants
+
+mysql 8 database dump privileges
+GRANT PROCESS ON *.* TO 'youruser'@'localhost';  
+
+GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost' WITH GRANT OPTION; 
+GRANT PROCESS, SUPER, RELOAD, FILE, SHOW DATABASES, REPLICATION CLIENT, REPLICATION SLAVE, EVENT, TRIGGER ON *.* TO 'user'@'localhost'; 
+FLUSH PRIVILEGES;
+
+SELECT user, host FROM mysql.user; - check user
+SHOW GRANTS FOR 'username'@'host';
+
+CREATE TABLE table ( id INT AUTO_INCREMENT PRIMARY KEY);
+
