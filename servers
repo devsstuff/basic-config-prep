@@ -9,7 +9,7 @@ sudo nano /etc/httpd/conf.d/app-name.conf
 
 <VirtualHost *:80>
 ServerName www.app-name
-DocumentRoot /var/www/www.app-name
+DocumentRoot /var/www/app-name
 ErrorLog /var/log/httpd/error.err
 CustomLog /var/log/httpd/access.log combined
 </VirtualHost>
