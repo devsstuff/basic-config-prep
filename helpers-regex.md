@@ -96,9 +96,9 @@ takodjer se tu podesavaju I broj fajlova koje korisnik moze otvoriti, nofile pos
 
 dodamo npr. za usera da moze otvoriti 12000 fajlova
 
-student soft nofile 12000 – mislim da je samo sa soft radilo, ako ne, stavi oba
+**student soft nofile 12000** – mislim da je samo sa soft radilo, ako ne, stavi oba
 
-student hard nofile 12000 – hard treba biti maksimalna vrijednost
+**student hard nofile 12000** – hard treba biti maksimalna vrijednost
 
 Imamo I vrijednosti priority I nice u conf fajlu
 
@@ -112,21 +112,21 @@ nakon sto odredimo PID procesa naredbom renice postavimo priority
 
 sto je vrijednost pri veci prioritet procesa je manji, tj. Ako je manja vrijednost pri, ona je prioritet procesa veci. S NI mijenjamo PRI, tj. Samo vrijednost NI mijenjamo. NI ide od -20 do 19
 
-renice 19 -p <PID>
+**renice 19 -p <PID>**
 
 **Postavi da webserver radi s upaljenim firewallom**
 
 We need to add http service in public zone of firewalld so workstation can connect to our
 web app. sudo firewall-cmd --list-all-zones is listing all zones.
 
-sudo firewall-cmd --list-all  - list public zone
+**sudo firewall-cmd --list-all  - list public zone**
 
-With command sudo firewall-cmd --add-service http --zone public we will add http
+With command **sudo firewall-cmd --add-service http --zone public** we will add http
 service to public zone.
 
 Ako restartamo firewall podesenje nece ostati, zato ovom naredbom postavimo da ostane
 
-sudo firewall-cmd --runtime-to-permanent
+**sudo firewall-cmd --runtime-to-permanent**
 
 **Postavi da webserver radi s upaljenim selinuxom**
 Provjeri selinux sa sestatus
@@ -134,12 +134,12 @@ Ako zelimo da selinux nakon pokretanja radi u Permissive nacinu rada, to mozemo 
 sudo nano /etc/selinux/config fajlu gdje dodamo SELINUX=permissive
 
 Provjerimo selinux opcije za http servis je li omogucen rad s portom 80,
-sudo semanage port -l | grep http
+**sudo semanage port -l | grep http**
 
 po defaultu je moguce da selinux to vec ima podeseno pa zato vjerojatno ne treba nista postaviti ako app radi na port 80
 
 Provjeri postavke za httpd
-sudo getsebool -a | grep httpd
+**sudo getsebool -a | grep httpd**
 
 **Postavi da webserver radi s upaljenim selinux na portu 99**
 Najprije omogucimo port 99 u httpd
@@ -148,11 +148,11 @@ sudo nano /etc/httpd/conf/httpd.conf I dodaj Listen 99, provjeri I s sudo netsta
 
 Allow port 99 in firewall
 
-sudo firewall-cmd --add-port 99/tcp --zone public
-sudo firewall-cmd  --runtime-to-permanent
+**sudo firewall-cmd --add-port 99/tcp --zone public**
+**sudo firewall-cmd  --runtime-to-permanent**
 
-Provjeri sudo semanage port -l | grep http
-Dodaj port u listu http_port_t sudo semanage port -a -t http_port_t -p tcp 99
+Provjeri sudo **semanage port -l | grep http**
+Dodaj port u listu http_port_t **sudo semanage port -a -t http_port_t -p tcp 99**
 
 **Podesi posluzivanje aplikacije iz foldera koji nije u /var/www, npr. /web-aplikacija**
 Dodaj folder, kreiraj vhost I podesi da gadja /web-aplikacija
@@ -166,7 +166,7 @@ sudo ls -laZ /web-aplikacija
 We need to change contenxt from default to httpd_sys_content_t. We will change it to all
 under /web-aplikacija folder.
 
-sudo semanage fcontext -a -t httpd_sys_content_t “/web-aplikacija(/.*)?” - ovo radi za sve foldere unutar
+**sudo semanage fcontext -a -t httpd_sys_content_t "/web-aplikacija(/.*)?"** - ovo radi za sve foldere unutar
 
 sudo restorecon -Rv /web-aplikacija – restore configuration
 
@@ -191,21 +191,21 @@ I dodaom opciju npr. port=3307, ali najprije ugasi selinux, firewalld I mysql ta
 Dalje omogucujemo taj port u selinux I firewalld
 
 provjerimo koji su portovi omoguceni 
-semanage port -l | grep mysql
+**semanage port -l | grep mysql**
 
-sudo semanage port -a -t mysqld_port_t -p tcp 3307
+**sudo semanage port -a -t mysqld_port_t -p tcp 3307**
 
 Provjerimo I u firewall servise I portove u public zoni
-sudo firewall-cmd --list-all 
+**sudo firewall-cmd --list-all** 
 
 Dodajmo servis mysql
-sudo firewall-cmd --add-service mysql --zone public 
+**sudo firewall-cmd --add-service mysql --zone public** 
 
 Dodajmo port 3306 jer nije dodan
-sudo firewall-cmd --add-port 3306/tcp --zone public
+**sudo firewall-cmd --add-port 3306/tcp --zone public**
 
 Postavimo da se postavke zadrze
-sudo firewall-cmd  --runtime-to-permanent
+**sudo firewall-cmd  --runtime-to-permanent**
 
 Na workstation testiramo pristup ako smo instalirali mysql client
 
