@@ -7,8 +7,9 @@ uglavnom kad koristimo regex, u awk dodamo uzorak izmedju / /, npr grep ‘yes�
 Find all words that start with "z" grep "^z", grep -c “^z”  – count of words
 Find all words that contain an apostrophe grep “ ’ ”
 Find all words that end with an apostrophe followed by "s" grep “ ‘ s$”
-Find all words that contain an accented character awk '/[\x80-\xFF]/' ili 
-  grep -P "[\x7f-\xff]"
+Find all words that contain an accented character 
+      awk '/[\x80-\xFF]/' ili 
+      grep -P "[\x7f-\xff]"
 
 Words with special characters 
 
