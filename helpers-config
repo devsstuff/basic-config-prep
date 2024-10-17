@@ -1,0 +1,110 @@
+PARTITIONS
+check with lsblk
+
+Create PV
+pvcreate /dev/vdb
+pvcreate /dev/vdc
+pvcreate /dev/vdd
+
+If PV size defined, other format partitions in vdb, vdc itd.
+
+sudo parted /dev/vdb mklabel gpt mkpart primary 1% 3G
+sudo parted /dev/vdb mkpart primary 770MiB 1026MiB
+sudo parted /dev/vdb set 1 lvm on
+sudo parted /dev/vdb set 2 lvm on
+sudo udevadm settle
+
+Now create PV
+sudo pvcreate /dev/vdb1 /dev/vdb2 /dev/vdb3 - all at once
+
+mkpart primary ext4 1% 3GB
+then pvcreate /dev/vdb1 etc.
+
+Block size will be defined when LVM will be created
+
+create VG
+sudo vgcreate group-name -s 512B /dev/vdb1 /dev/vdc1 /dev/vdd1 - all at once
+or
+sudo vgextend group-name /dev/vde1 - or whatever
+
+check with vgdisplay, pvdisplay
+
+create LV
+sudo lvcreate -n lvm-name -L 3G group-name
+sudo lvcreate -n raid-volume -L 1G group-name
+After LV creation, block size will be defined in format process
+format LV
+Block size definiton with flag -b za ext
+mkfs.ext4 -b 1024 /lvm-device-path - not possible 512, min 1024 B. 
+For xfs we use -b size=1024. min 1024
+Tj. u xfs bi moglo biti 512 (izgleda da je I ovdje 1024), ali ne u ext2, ext3 ili ext4, ali treba provjeriti za vrijeme formatiranja
+mkfs.xfs -b size=1024 lvm-device-path
+
+Create folder for mount on LV. Check lvdisplay for device on which we will mount folder
+mount lvm to folder
+mount lv folder
+
+Check lsblk
+
+
+RAID
+
+umount folders, delete witj vgdelete because of -s if 512B then create group again
+raid1, npr. -i 2 (number of devices) cannot be used for raid1
+lvcreate --type raid1  -n raid-volume -L 200M group-name
+
+raid5, here -i 2 (number of devices)
+lvcreate --type raid5  -n raid-5-volume -L 200M -i 2 group-name
+
+Check with lsblk, LVM needs to show at least two partitions
+
+NFS 
+It should be instsalled let just enable it
+systemctl enable  --now nfs-server
+Nfs is configured in /etc/exports
+
+root_squash: Provides an important security layer for NFS servers by restricting root users from having full access to the NFS shares. (rw,sync,root_squash) 
+
+/folder <ip>/24(rw,sync) – read and write, share with whole subnetom
+/folder <ip>(rw,sync) – share with server on ip adress
+/folder 1<ip>(rw,sync) -  share with server on ip adress
+/folder *(ro,sync) – read only, shared with everyone
+
+/folder <ip>/24(rw,sync)
+/folder <ip>(rw,sync)
+/folder <ip>(rw,sync)
+/folder *(ro,sync)
+
+verify with exportfs -v or exportfs -rav
+If we want to enable sharing on servers defined in the exports file, we configure the NFS client on those servers, 
+for example: sudo mount -t nfs 192.34.3.1:/folder /share-folder
+
+verify with sudo mount | grep nfs or sudo df -hPT
+
+STRATIS
+Let's configure stratis pool an filesystem. Pool is equivalent of pooling group in
+LVM.
+
+sudo dnf install stratis-cli stratisd -y
+sudo systemctl enable --now stratisd
+
+Check lsblk
+If PV size defined, other format partitions in vdb, vdc itd. just like with LVM
+
+create pool with 3 PV
+sudo stratis pool create pool-name /dev/vdb /dev/vdc /dev/vdd
+
+Check with
+sudo stratis pool list
+Create 2 filesystema from pool-name
+sudo stratis filesystem create pool-name stratis-1
+sudo stratis filesystem create pool-name stratis-2
+
+Check 
+sudo stratis filesystem list – we will see devices that will be mounted on folders
+
+Mount
+na /folder-1 and /folder-2
+
+mount /device-path /folder-
+verify with sudo lsblk
