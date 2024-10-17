@@ -8,6 +8,7 @@ Find all words that start with "z" grep "^z", grep -c “^z”  – count of wor
 Find all words that contain an apostrophe grep “ ’ ”
 Find all words that end with an apostrophe followed by "s" grep “ ‘ s$”
 Find all words that contain an accented character 
+
       awk '/[\x80-\xFF]/' ili 
       grep -P "[\x7f-\xff]"
 
@@ -23,28 +24,51 @@ Find all words that have exactly five letters
      5 letters  grep -E -o '\b\w{5}\b'
      
 Find all words that start with a capital letter grep “ ^ [A-Z]”
+
 Find all words that have a special character (e.g., é, Å).
+
 Find all words that end with the letter "e" grep “ e$ ”
+
 Find all words that are exactly six characters long grep “ ^.{6}$ ”
+
 Find all words that contain at least one vowel (a, e, i, o, u) grep “ [aeiou] ”
+
 Find all words that start with 'Al' and are followed by any number of letters or apostrophes grep  "^Al[a-z0-9']*"
+
 Find all words that end with 's' or 'es' grep -E  "s$|es$"
+
 Find all words that end with a letter but have a single apostrophe or nothing following it grep -E -c "[a-zA-Z]|'?$"
+
 Find all words that contain the substring 'Alma' anywhere in the word grep “Alma”
+
 Find all words that are exactly two characters long and contain at least one letter grep -E "^[a-zA-Z]{2}$" ili grep -E "^[a-zA-Z][a-zA-Z]$"
+
 Find all words where the second character is a vowel (a, e, i, o, u) grep -E "^[a-zA-Z][aeiuo]"
+
 Find all words that start with 'A' and have exactly seven characters grep -E "^A[a-zA-Z]{6}$"
+
 Find all words that contain at least one accented character and have more than 5 characters grep -P "[À-ÿ].{5,}" – install pcregrep
+
 Find all words that are exactly three letters long and end with 'n' grep -E "^.{2}n$" ili grep -E "^..n$"
+
 Find all words where the first letter is 'A' and the last letter is 'a' grep -E "^A[a-zA-Z0-9]*a$" ili “^A.*a$”
+
 Find all words that contain the substring 'son' in them grep  "son"
+
 Find all words that contain digits (0-9) and are exactly 4 characters long grep -E "^[[:alnum:]]{4}$" /usr/share/dict/words | grep "[0-9]"
+
 Find all words that contain 'A' followed by exactly three letters and end with 's' grep -E  "A[a-zA-Z]{3}s$"  ili "A[a-zA-Z]{3}.*s$"
+
 Find all words that contain exactly one apostrophe grep -E "'{1}"
+
 Find all words that end with 'ed' and have exactly 6 characters grep -E "^.{4}ed$"
+
 Find all words that do not contain any vowels (a, e, i, o, u) grep -E '^[^aeiouAEIOU]+$'
+
 find / -type f -name “config” | wc -l  - files with config in name
+
 find / -type f -name “*.config” | wc -l – files with ending with .config
+
 find / -type f  -exec grep -l “config” {} \; | wc  -l – files with content having “content” in it
 
 #Naredbe kojima zelimo doci do info o procesima
