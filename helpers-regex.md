@@ -10,10 +10,13 @@ Find all words that end with an apostrophe followed by "s" grep “ ‘ s$”
 Find all words that contain an accented character awk '/[\x80-\xFF]/' ili 
   grep -P "[\x7f-\xff]"
 
-Words with special characters grep -P '\w*[^\x00-\x7F]\w*' ili awk '/\w*[^\x00-\x7F]\w*/'
+Words with special characters 
 
-Find all words that have exactly five letters grep -E “^[a-zA-Z]{5}$ ” but length is 5
+grep -P '\w*[^\x00-\x7F]\w*' ili awk '/\w*[^\x00-\x7F]\w*/'
 
+Find all words that have exactly five letters 
+
+     grep -E “^[a-zA-Z]{5}$ ” but length is 5
      5 letters no mater length grep -o -E “[a-zA-Z]{5}”
      5 letters no matter letters or numbers grep “^.{5}$”
      5 letters  grep -E -o '\b\w{5}\b'
