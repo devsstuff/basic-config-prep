@@ -18,7 +18,7 @@ httpd -t
 
 sudo systemctl restart httpd
 
-test in browser add /etc/hosts zapis <ip> server-name, this is used for test on workstation and with curl
+test in browser add on workstation /etc/hosts zapis <ip> server-name, this is used for test on workstation and with curl
 turn off firewall and selinux
 
 
@@ -42,6 +42,6 @@ nginx -t – expect permission errors but it worked locally
 
 systemctl restart nginx
 
-test in browser add /etc/hosts zapis <ip> server-name, this is used for test on workstation and with curl
+test in browser add on workstation /etc/hosts zapis <ip> server-name, this is used for test on workstation and with curl
 turn off firewall and selinux
 
