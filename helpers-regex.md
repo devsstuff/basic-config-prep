@@ -132,9 +132,17 @@ Ako restartamo firewall podesenje nece ostati, zato ovom naredbom postavimo da o
 **sudo firewall-cmd --runtime-to-permanent**
 
 **Postavi da webserver radi s upaljenim selinuxom**
+
+Da bi server radio s upaljenim selinuxom potrebno je omoguciti opciju za http servis da radi s odredjenim portom, kako je defaultni port 80 provjeriti cemo 
+je li omogucen rad s istim
+**sudo semanage port -l | grep http**
+
+Provjeriti cemo i postavke za httpd
+**sudo getsebool -a | grep httpd**
+
 Provjeri selinux sa sestatus
 Ako zelimo da selinux nakon pokretanja radi u Permissive nacinu rada, to mozemo podesiti u 
-sudo nano /etc/selinux/config fajlu gdje dodamo SELINUX=permissive
+sudo nano **/etc/selinux/config** fajlu gdje dodamo **SELINUX=permissive**
 
 Provjerimo selinux opcije za http servis je li omogucen rad s portom 80,
 **sudo semanage port -l | grep http**
