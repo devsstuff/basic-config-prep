@@ -91,9 +91,12 @@ ps faxl | grep mysqld – npr, tu mozemo vidjeti I PID procesa, takodjer podaci 
 Ovdje mozemo vidjeti STAT kolumnu (status), Ss – S sleeping status, s- session leader, R – running, + foreground process (aktivan process), l (Multithreaded) - The process is multithreaded
 systemctl status apache2 vrati main pid
 
+Koristio sam naredbe systemctl status mysqld, ps faux i ps faxl jer sam zelio vidjeti podatke vezane za status procesa (aktivan, neaktivan, main PID), PRI, NI, memoriju, cpu i STAT.
+Podaci za STAT: Ss – S sleeping status, s- session leader, R – running, + foreground process (aktivan process), l (Multithreaded) - The process is multithreaded
+
 ulimit – naredba kojom podesavamo odredjene limite za usera, npr. Ulimit -n broj fajlova koje korisnik moze otvoriti
 
-conf file gdje se podesavaju pri I ni procesa koje korisnik pokrece (default) /etc/security/limits.conf
+conf file gdje se podesavaju pri I ni procesa koje korisnik pokrece (default) **/etc/security/limits.conf**
 
 takodjer se tu podesavaju I broj fajlova koje korisnik moze otvoriti, nofile postavka, nproc je postavka za broj procesa
 
@@ -119,17 +122,17 @@ sto je vrijednost pri veci prioritet procesa je manji, tj. Ako je manja vrijedno
 
 **Postavi da webserver radi s upaljenim firewallom**
 
-We need to add http service in public zone of firewalld so workstation can connect to our
-web app. sudo firewall-cmd --list-all-zones is listing all zones.
+Provjerimo je li http servis dodan u public zone firewalld. Ako ne trebamo taj servis dodati u public zone od firewalld 
+**sudo firewall-cmd --list-all**
 
-**sudo firewall-cmd --list-all  - list public zone**
-
-With command **sudo firewall-cmd --add-service http --zone public** we will add http
-service to public zone.
+Ovom naredbom to dodajemo **sudo firewall-cmd --add-service http --zone public**
 
 Ako restartamo firewall podesenje nece ostati, zato ovom naredbom postavimo da ostane
-
 **sudo firewall-cmd --runtime-to-permanent**
+
+**sudo firewall-cmd --list-all-zones** is listing all zones.
+
+  - list public zone**
 
 **Postavi da webserver radi s upaljenim selinuxom**
 
