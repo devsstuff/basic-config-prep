@@ -1,3 +1,7 @@
+
+WIN + R
+ - type charmap za specijalne simbole
+ - 
 GREP / AWK
   
 grep vs awk
