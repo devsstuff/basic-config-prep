@@ -23,7 +23,9 @@ then pvcreate /dev/vdb1 etc.
 Block size will be defined when LVM will be created
 
 create VG
+Radi zadatka kreiranja logickog volumena s raid paritetom, kreirat cemo grupu s PE size 4MiB
 sudo vgcreate group-name -s 512B /dev/vdb1 /dev/vdc1 /dev/vdd1 - all at once
+sudo vgcreate group-name /dev/vdb1 /dev/vdc1 /dev/vdd1
 or
 sudo vgextend group-name /dev/vde1 - or whatever
 
