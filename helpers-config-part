@@ -67,7 +67,7 @@ Nfs is configured in /etc/exports
 
 root_squash: Provides an important security layer for NFS servers by restricting root users from having full access to the NFS shares. (rw,sync,root_squash) 
 
-/folder <ip>/24(rw,sync) – read and write, share with whole subnetom (172.25.250.0/24)
+/folder <ip>/24(rw,sync) – read and write, share with whole subnetom (192.34.45.0/24)
 /folder <ip>(rw,sync) – share with server on ip adress
 /folder 1<ip>(rw,sync) -  share with server on ip adress
 /folder *(ro,sync) – read only, shared with everyone
