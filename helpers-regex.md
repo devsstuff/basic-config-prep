@@ -233,16 +233,65 @@ Na workstation testiramo pristup ako smo instalirali mysql client
 mysql -u user -p -h <ip>  - ako se spajamo na defaultni port 3306
 mysql -u user -p -h <ip> -P 3307 – ako se spajamo na port 3307
 
+**Processes**
+
 1.Find out the list of processes with names sorted in alphabetical order ran by
 root user and output it in alphabetical order
 ps -u root u –sort=comm
+
 2. From the list in the 1 st task, select only the process names
 ps -u root u –sort=comm | awk '{print $11}'
-3. From the list in the 2 nd task, add the parameters for each of the processes
+
+4. From the list in the 2 nd task, add the parameters for each of the processes
 ps -u root -eo args --sort=comm
+
 6. Find out which process uses the most CPU cycles
 ps -eo comm,%cpu --sort=-%cpu --no-headers | head -n 1
-7. Find out which process has the 2 nd highest memory usage
+
+8. Find out which process has the 2 nd highest memory usage
 ps -eo pid,comm,%mem --sort=-%mem --no-headers | head -n 2 | tail -n 1
-8. Find out which process has been running for the longest
+
+10. Find out which process has been running for the longest
 ps -eo pid,comm,etime --sort=etime --no-headers | head -n 1
+
+**Regex**
+
+1. From the file /usr/share/dict/words, select all the rows containing the word `fish`.
+grep 'fish' /usr/share/dict/words
+
+3. From the file /usr/share/dict/words, select all the rows containing the word `cat`. Also
+select 2 rows before each row and 1 after.
+grep -B 2 -A 1 'cat' /usr/share/dict/words
+
+5. From the file /usr/share/dict/words, print the number of occurrences of the word `cat`.
+grep -o -w 'cat' /usr/share/dict/words | wc -l
+
+7. From the file /usr/share/dict/words, select all the rows containing the word `cat` as well
+as the row number. Which row shows the word `catalog`?
+grep -n 'cat' /usr/share/dict/words | grep 'catalog'
+grep -n 'catalog' /usr/share/dict/words
+
+9. From the file /usr/share/dict/words, select all the rows containing the letter `t`, a vowel
+after the `t` and ending with `sh`.
+grep 't[aeiou].*sh' /usr/share/dict/words
+
+11. From the file /usr/share/dict/words, select all the rows that will match the words:
+`abominable`, `abominate`, `anomie` and `atomize` exactly. Other rows must not be
+selected.
+grep -E '^(abominable|abominate|anomie|atomize)$' /usr/share/dict/words
+
+13. From the file /usr/share/dict/words, how many words are there that contain the letter
+`t`, have a vowel after the `t` and end with `sh`?
+grep -c 't[aeiou].*sh' /usr/share/dict/words
+
+15. From the file /usr/share/dict/words, select all the words that are exactly 14 characters
+long.
+grep -E '^.{14}$' /usr/share/dict/words
+
+17. From the file /usr/share/dict/words, select all the rows that begin with `bl`, have a
+vowel after `bl`, and anything after the vowel.
+grep -E '^bl[aeiou].*' /usr/share/dict/words
+
+19. From the file /usr/share/dict/words, select all the words that contain a 2 – digit
+number.
+grep -E '[0-9]{2}' /usr/share/dict/words
