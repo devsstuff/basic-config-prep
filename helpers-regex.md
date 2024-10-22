@@ -169,6 +169,7 @@ sudo nano /etc/httpd/conf/httpd.conf I dodaj Listen 99, provjeri I s sudo netsta
 Allow port 99 in firewall
 
 **sudo firewall-cmd --add-port 99/tcp --zone public**
+
 **sudo firewall-cmd  --runtime-to-permanent**
 
 Provjeri sudo **semanage port -l | grep http**
@@ -211,10 +212,14 @@ I dodaom opciju npr. port=3307, ali najprije ugasi selinux, firewalld I mysql ta
 
 Dalje omogucujemo taj port u selinux I firewalld
 
-provjerimo koji su portovi omoguceni 
+**MYSQL I SELINUX**
+
+Provjerimo koji su portovi omoguceni 
 **semanage port -l | grep mysql**
 
 **sudo semanage port -a -t mysqld_port_t -p tcp 3307**
+
+**MYSQL I FIREWALL**
 
 Provjerimo I u firewall servise I portove u public zoni
 **sudo firewall-cmd --list-all** 
@@ -227,6 +232,10 @@ Dodajmo port 3306 jer nije dodan
 
 Postavimo da se postavke zadrze
 **sudo firewall-cmd  --runtime-to-permanent**
+
+Provjeri
+
+**sudo firewall-cmd --list-all** 
 
 Na workstation testiramo pristup ako smo instalirali mysql client
 
