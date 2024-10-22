@@ -296,6 +296,42 @@ grep -E '^bl[aeiou].*' /usr/share/dict/words
 number.
 grep -E '[0-9]{2}' /usr/share/dict/words
 
+11. From the file /usr/share/dict/words, select all the words that:
+12. 
+a. Begin with any letter, after which they have the letter `e`, and anything after that OR
+
+b. Begin with a number
+
+This regular expression must be in a single command.
+
+grep -E '^(e.*|[0-9].*)' /usr/share/dict/words
+
+13. From the file /usr/share/dict/words, find the following words:
+
+a. Bank
+
+b. Banking
+
+c. Flunking
+
+d. Walking
+
+This regular expression must be in a single command.
+
+grep -E '^(Bank|Banking|Flunking|Walking)$' /usr/share/dict/words
+
+15. Find all the files in the filesystem that end with `password`.
+sudo find / -type f -name '*password'
+
+17. Find all the files in the filesystem that begin with `password`.
+sudo find / -type f -name 'password*'
+
+19. Find all the files in the filesystem that are named `password`.
+sudo find / -type f -name 'password'
+
+21. Find all the files in the filesystem that contain `password`.
+sudo grep -lR 'password' /
+
 **Evo napomena vezano za libre office, iako napravim align screenshota i teksta, screenshot bez razloga zavrsi na iducoj stranici. 
 Pa ako mozemo to uzeti u obzir ako za neki rijeseni zadatak slika nije tocno ispod teksta.**
 
