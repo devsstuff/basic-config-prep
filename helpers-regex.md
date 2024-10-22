@@ -295,3 +295,11 @@ grep -E '^bl[aeiou].*' /usr/share/dict/words
 19. From the file /usr/share/dict/words, select all the words that contain a 2 – digit
 number.
 grep -E '[0-9]{2}' /usr/share/dict/words
+
+**Evo napomena vezano za libre office, iako napravim align screenshota i teksta, screenshot bez razloga zavrsi na iducoj stranici. 
+Pa ako mozemo to uzeti u obzir ako za neki rijeseni zadatak slika nije tocno ispod teksta.**
+
+https://rha.ole.redhat.com/rha/app/login
+
+dkelava
+43<[f0W:
