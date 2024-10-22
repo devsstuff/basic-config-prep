@@ -134,6 +134,8 @@ Ovom naredbom to dodajemo **sudo firewall-cmd --add-service http --zone public**
 Ako restartamo firewall podesenje nece ostati, zato ovom naredbom postavimo da ostane
 **sudo firewall-cmd --runtime-to-permanent**
 
+Provjerimo **sudo firewall-cmd --list-all**
+
 **sudo firewall-cmd --list-all-zones** is listing all zones.
 
   - list public zone**
@@ -171,6 +173,7 @@ Allow port 99 in firewall
 
 Provjeri sudo **semanage port -l | grep http**
 Dodaj port u listu http_port_t **sudo semanage port -a -t http_port_t -p tcp 99**
+Provjeri sudo **semanage port -l | grep http**
 
 **Podesi posluzivanje aplikacije iz foldera koji nije u /var/www, npr. /web-aplikacija**
 Dodaj folder, kreiraj vhost I podesi da gadja /web-aplikacija
