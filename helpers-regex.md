@@ -232,3 +232,17 @@ Na workstation testiramo pristup ako smo instalirali mysql client
 
 mysql -u user -p -h <ip>  - ako se spajamo na defaultni port 3306
 mysql -u user -p -h <ip> -P 3307 – ako se spajamo na port 3307
+
+1.Find out the list of processes with names sorted in alphabetical order ran by
+root user and output it in alphabetical order
+ps -u root u –sort=comm
+2. From the list in the 1 st task, select only the process names
+ps -u root u –sort=comm | awk '{print $11}'
+3. From the list in the 2 nd task, add the parameters for each of the processes
+ps -u root -eo args --sort=comm
+6. Find out which process uses the most CPU cycles
+ps -eo comm,%cpu --sort=-%cpu --no-headers | head -n 1
+7. Find out which process has the 2 nd highest memory usage
+ps -eo pid,comm,%mem --sort=-%mem --no-headers | head -n 2 | tail -n 1
+8. Find out which process has been running for the longest
+ps -eo pid,comm,etime --sort=etime --no-headers | head -n 1
