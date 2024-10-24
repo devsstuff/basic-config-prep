@@ -29,6 +29,8 @@ sudo systemctl restart httpd
 test in browser add on workstation /etc/hosts zapis <ip> server-name, this is used for test on workstation and with curl
 turn off firewall and selinux
 
+172.25.250.10   app.ispitna.local   todo.ispitna.local
+
 
 NGINX
 dnf install nginx -y
