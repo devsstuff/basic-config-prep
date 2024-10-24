@@ -106,7 +106,7 @@ root_squash: Provides an important security layer for NFS servers by restricting
 nano /etc/exports
 
 /lvm/ishod7 172.25.250.0/24(rw,sync)
-/lvm/raid-1 172.25.250.o(ro,sync)
+/lvm/raid-1 172.25.250.0(ro,sync)
 /folder <ip>(rw,sync)
 /folder *(ro,sync)
 
