@@ -14,6 +14,13 @@ udevadm settle && \
 pvcreate /dev/vdb1 /dev/vdc1 /dev/vdd1 && \
 vgcreate vg-groupb /dev/vdb1 /dev/vdc1 /dev/vdd1
 
+parted /dev/vdb mklabel gpt mkpart primary 1% 4GiB && \
+parted /dev/vdc mklabel gpt mkpart primary 1% 4GiB && \
+parted /dev/vdd mklabel gpt mkpart primary 1% 4GiB && \
+udevadm settle && \
+pvcreate /dev/vdb1 /dev/vdc1 /dev/vdd1 && \
+vgcreate vg-groupb /dev/vdb1 /dev/vdc1 /dev/vdd1
+
 One command lvs
 
 mkdir -p /lvm/{ishod7,raid-1,raid-5} && \
