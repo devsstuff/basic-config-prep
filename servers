@@ -4,14 +4,15 @@ systemctl start httpd
 systemctl enable  --now httpd
 
 create app folder in /var/www/app-name
+mkdir -p /var/www/{app.ispitna.local,todo.ispitna.local}
 
-sudo nano /etc/httpd/conf.d/app-name.conf
+sudo nano /etc/httpd/conf.d/app.ispitna.local.conf
 
 <VirtualHost *:80>
-ServerName www.app-name
-DocumentRoot /var/www/app-name
-ErrorLog /var/log/httpd/error.err
-CustomLog /var/log/httpd/access.log combined
+   ServerName app.ispitna.local
+   DocumentRoot /var/www/app.ispitna.local
+   ErrorLog /var/log/httpd/error.err
+   CustomLog /var/log/httpd/access.log combined
 </VirtualHost>
 
 httpd -t
