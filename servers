@@ -6,6 +6,10 @@ systemctl enable  --now httpd
 create app folder in /var/www/app-name
 mkdir -p /var/www/{app.ispitna.local,todo.ispitna.local,www.rhcsa.local,web.rhcsa.local,wiki.ispitna.local,aplikacija.ispitna.local}
 
+dnf install httpd -y && \
+systemctl enable --now httpd && \
+systemctl status httpd
+
 One command for whole basic setup
 mkdir -p /var/www/{app.ispitna.local,todo.ispitna.local,www.rhcsa.local,web.rhcsa.local,wiki.ispitna.local,aplikacija.ispitna.local} && \
 echo app.ispitna.local > /var/www/app.ispitna.local/index.html && \
@@ -45,6 +49,10 @@ NGINX
 dnf install nginx -y
 systemctl start nginx
 systemctl enable --now nginx
+
+dnf install nginx -y && \
+systemctl enable --now nginx && \
+systemctl status httpd
 
 create app folder in /var/www/app.ispitna.local
 sudo nano /etc/nginx/conf.d/app.ispitna.local.conf
