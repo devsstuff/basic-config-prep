@@ -37,13 +37,16 @@ SELECT user, host FROM mysql.user; - check user
 SHOW GRANTS FOR 'username'@'host';
 
 CREATE TABLE table ( id INT AUTO_INCREMENT PRIMARY KEY);
-
+----
 mysql -u root -p -e "CREATE DATABASE ispitDB; CREATE USER 'databaseuser'@'localhost' IDENTIFIED BY 'password'; GRANT ALL PRIVILEGES ON ispitDB.* TO 'databaseuser'@'localhost'; FLUSH PRIVILEGES;"
 mysql -u root -p -e "SHOW DATABASES; SELECT user, host FROM mysql.user; SHOW GRANTS FOR 'databaseuser'@'localhost';"
 
+----
 mysql -u root -p -e "CREATE DATABASE midterm2DB; USE midterm2DB; CREATE TABLE examTable1 (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY); CREATE USER 'tableuser'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON midterm2DB.examTable1 TO 'tableuser'@'localhost'; FLUSH PRIVILEGES;"
+
 mysql -u root -p -e "SHOW DATABASES; use midterm2DB; SHOW TABLES; SELECT user, host FROM mysql.user; SHOW GRANTS FOR 'tableuser'@'localhost';"
 
+----
 mysql -u root -p -e "CREATE DATABASE examDB; CREATE USER 'dbuser'@'%' IDENTIFIED BY 'password'; GRANT ALL PRIVILEGES ON examDB.* TO 'dbuser'@'%'; FLUSH PRIVILEGES;"
 mysql -u root -p -e "SHOW DATABASES; SELECT user, host FROM mysql.user; SHOW GRANTS FOR 'dbuser'@'%';"
