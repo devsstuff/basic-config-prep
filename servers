@@ -15,6 +15,13 @@ sudo nano /etc/httpd/conf.d/app.ispitna.local.conf
    CustomLog /var/log/httpd/access.log combined
 </VirtualHost>
 
+<VirtualHost *:80>
+   ServerName www.rhcsa.local
+   DocumentRoot /var/www/www.rhcsa.local
+   ErrorLog /var/log/httpd/error.err
+   CustomLog /var/log/httpd/access.log combined
+</VirtualHost>
+
 httpd -t
 
 sudo systemctl restart httpd
