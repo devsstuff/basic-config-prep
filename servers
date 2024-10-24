@@ -35,15 +35,15 @@ dnf install nginx -y
 systemctl start nginx
 systemctl enable --now nginx
 
-create app folder in /var/www/app-name
-sudo nano /etc/nginx/conf.d/app-name
+create app folder in /var/www/app.ispitna.local
+sudo nano /etc/nginx/conf.d/app.ispitna.local.conf
 
 server {
-listen 80; 
-server_name app-name;
-root /var/www/app-name;
-access_log /var/log/nginx/access.log;
-error_log /var/log/nginx/error.log;
+   listen 80; 
+   server_name app.ispitna.local;
+   root /var/www/app.ispitna.local;
+   access_log /var/log/nginx/access.log;
+   error_log /var/log/nginx/error.log;
 }
 
 nginx -t – expect permission errors but it worked locally
