@@ -16,7 +16,7 @@ sudo parted /dev/vdb set 2 lvm on
 sudo udevadm settle
 
 Now create PV
-sudo pvcreate /dev/vdb1 /dev/vdb2 /dev/vdb3 - all at once
+sudo pvcreate /dev/vdb1 /dev/vdc1 /dev/vdd1  - all at once
 
 mkpart primary ext4 1% 3GB
 then pvcreate /dev/vdb1 etc.
