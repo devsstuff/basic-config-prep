@@ -1,5 +1,5 @@
 PARTITIONS
-check with lsblk
+check with lsblk -f
 
 Create PV
 pvcreate /dev/vdb
@@ -32,8 +32,11 @@ sudo vgextend group-name /dev/vde1 - or whatever
 check with vgdisplay, pvdisplay
 
 create LV
+
 sudo lvcreate -n lvm-vol1 -L 400MiB vg-groupb
+
 sudo lvcreate -n raid-volume -L 1G group-name
+
 After LV creation, block size will be defined in format process
 format LV
 Block size definiton with flag -b za ext
@@ -46,7 +49,7 @@ Create folder for mount on LV. Check lvdisplay for device on which we will mount
 mount lvm to folder
 mount lv folder
 
-Check lsblk
+Check lsblk -f
 
 
 RAID
