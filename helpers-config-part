@@ -7,6 +7,7 @@ pvcreate /dev/vdc
 pvcreate /dev/vdd
 
 One command group & pvs
+Radi kreiranja logickog volumena s raid paritetom, kreirat cemo grupu s defaultnim PE size
 parted /dev/vdb mklabel gpt mkpart primary 1% 3GiB && \
 parted /dev/vdc mklabel gpt mkpart primary 1% 3GiB && \
 parted /dev/vdd mklabel gpt mkpart primary 1% 3GiB && \
@@ -14,6 +15,7 @@ udevadm settle && \
 pvcreate /dev/vdb1 /dev/vdc1 /dev/vdd1 && \
 vgcreate vg-groupb /dev/vdb1 /dev/vdc1 /dev/vdd1
 
+Radi kreiranja logickog volumena s raid paritetom, kreirat cemo grupu s defaultnim PE size
 parted /dev/vdb mklabel gpt mkpart primary 1% 4GiB && \
 parted /dev/vdc mklabel gpt mkpart primary 1% 4GiB && \
 parted /dev/vdd mklabel gpt mkpart primary 1% 4GiB && \
