@@ -6,6 +6,24 @@ pvcreate /dev/vdb
 pvcreate /dev/vdc
 pvcreate /dev/vdd
 
+One command group & pvs
+parted /dev/vdb mklabel gpt mkpart primary 1% 3GiB && \
+parted /dev/vdc mklabel gpt mkpart primary 1% 3GiB && \
+parted /dev/vdd mklabel gpt mkpart primary 1% 3GiB && \
+udevadm settle && \
+pvcreate /dev/vdb1 /dev/vdc1 /dev/vdd1 && \
+vgcreate vg-groupb /dev/vdb1 /dev/vdc1 /dev/vdd1
+
+One command lvs
+
+mkdir -p /lvm/{ishod7,raid-1,raid-5} && \
+lvcreate -n lvm-vol1 -L 400MiB vg-groupb && \
+lvcreate --type raid5  -n raid-5-volume -L 1GiB -i 2 vg-groupb
+
+mkdir -p /lvm/{ishod7,raid-1,raid-5} && \
+lvcreate -n lvm-vol1 -L 400MiB vg-groupb && \
+lvcreate --type raid1  -n raid-1-volume -L 200MiB vg-groupb
+
 If PV size defined, other format partitions in vdb, vdc itd.
 
 sudo parted /dev/vdb mklabel gpt mkpart primary 1% 3GiB
