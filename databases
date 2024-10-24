@@ -8,6 +8,12 @@ sudo mysql -u root -p
 CREATE DATABASE ispitDB;
 CREATE USER 'databaseuser'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON ispitDB.* TO 'databaseuser'@'localhost'; 
+FLUSH PRIVILEGES;
+
+CREATE DATABASE examDB;
+CREATE USER 'dbuser'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON examDB.* TO 'dbuser'@'%'; 
+FLUSH PRIVILEGES;
 
 SELECT user, host FROM mysql.user; - check user
 SHOW GRANTS FOR 'databaseuser'@'localhost';
