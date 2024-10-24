@@ -4,7 +4,16 @@ systemctl start httpd
 systemctl enable  --now httpd
 
 create app folder in /var/www/app-name
-mkdir -p /var/www/{app.ispitna.local,todo.ispitna.local,www.rhcsa.local,web.rhcsa.local}
+mkdir -p /var/www/{app.ispitna.local,todo.ispitna.local,www.rhcsa.local,web.rhcsa.local,wiki.ispitna.local,aplikacija.ispitna.local}
+
+One command for whole basic setup
+mkdir -p /var/www/{app.ispitna.local,todo.ispitna.local,www.rhcsa.local,web.rhcsa.local,wiki.ispitna.local,aplikacija.ispitna.local} && \
+echo app.ispitna.local > /var/www/app.ispitna.local/index.html && \
+echo todo.ispitna.local > /var/www/todo.ispitna.local/index.html && \
+echo www.rhcsa.local > /var/www/www.rhcsa.local/index.html && \
+echo web.rhcsa.local > /var/www/web.rhcsa.local/index.html && \
+echo aplikacija.ispitna.local > /var/www/aplikacija.ispitna.local/index.html && \
+echo wiki.ispitna.local > /var/www/wiki.ispitna.local/index.html
 
 sudo nano /etc/httpd/conf.d/app.ispitna.local.conf
 
