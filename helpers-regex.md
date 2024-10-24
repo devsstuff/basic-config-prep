@@ -1,3 +1,20 @@
+grep -c "^bird" /usr/share/dict/words |head
+
+grep -c "^bird" /usr/share/dict/words | head
+
+grep -n "food" /usr/share/dict/words | head
+
+grep -n "cat" /usr/share/dict/words | head
+
+grep -E "^[a-zA-Z]{12}$" /usr/share/dict/words | head
+
+grep -E "^[a-zA-Z]{7}$" /usr/share/dict/words | head
+
+find / -type f -name "password*"
+
+find / -type f -name "*.config"
+
+. je za trenutni dir
 
 WIN + R
  - type charmap za specijalne simbole
