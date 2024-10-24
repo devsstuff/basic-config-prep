@@ -8,7 +8,11 @@ grep vs awk
 
 uglavnom kad koristimo regex, u awk dodamo uzorak izmedju / /, npr grep ‘yes’ I ‘awk /yes/’
 
-Find all words that start with "z" grep "^z", grep -c “^z”  – count of words
+Find all words that start with "z" grep "^z", grep -c "^z"  – count of words
+
+grep -c "^bird" /usr/share/dict/words
+
+grep -c "^mom" /usr/share/dict/words
 
 Find all words that contain an apostrophe grep “ ’ ”
 
