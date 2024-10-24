@@ -35,6 +35,15 @@ sudo nano /etc/httpd/conf.d/app.ispitna.local.conf
    CustomLog /var/log/httpd/access.log combined
 </VirtualHost>
 
+tee /etc/httpd/conf.d/app.ispitna.local.conf > /dev/null <<EOF
+<VirtualHost *:80>
+   ServerName app.ispitna.local
+   DocumentRoot /var/www/app.ispitna.local
+   ErrorLog /var/log/httpd/error.err
+   CustomLog /var/log/httpd/access.log combined
+</VirtualHost>
+EOF
+
 httpd -t
 
 sudo systemctl restart httpd
