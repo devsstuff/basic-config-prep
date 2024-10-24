@@ -25,11 +25,11 @@ One command lvs
 
 mkdir -p /lvm/{ishod7,raid-1,raid-5} && \
 lvcreate -n lvm-vol1 -L 400MiB vg-groupb && \
-lvcreate --type raid5  -n raid-5-volume -L 1GiB -i 2 vg-groupb
+lvcreate --type raid1  -n raid-1-volume -L 200MiB vg-groupb
 
 mkdir -p /lvm/{ishod7,raid-1,raid-5} && \
 lvcreate -n lvm-vol1 -L 400MiB vg-groupb && \
-lvcreate --type raid1  -n raid-1-volume -L 200MiB vg-groupb
+lvcreate --type raid5  -n raid-5-volume -L 1GiB -i 2 vg-groupb
 
 If PV size defined, other format partitions in vdb, vdc itd.
 
