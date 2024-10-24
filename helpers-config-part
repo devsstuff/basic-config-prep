@@ -8,6 +8,7 @@ pvcreate /dev/vdd
 
 If PV size defined, other format partitions in vdb, vdc itd.
 
+sudo parted /dev/vdb mklabel gpt mkpart primary 1% 3GiB
 sudo parted /dev/vdb mklabel gpt mkpart primary 1% 4GiB
 sudo parted /dev/vdb mkpart primary 770MiB 1026MiB
 sudo parted /dev/vdb set 1 lvm on
@@ -56,7 +57,7 @@ RAID
 
 umount folders, delete witj vgdelete because of -s if 512B then create group again
 raid1, npr. -i 2 (number of devices) cannot be used for raid1
-lvcreate --type raid1  -n raid-volume -L 200M group-name
+lvcreate --type raid1  -n raid-1-volume -L 200M vg-groupb
 
 raid5, here -i 2 (number of devices)
 lvcreate --type raid5  -n raid-5-volume -L 1GiB -i 2 vg-groupb
