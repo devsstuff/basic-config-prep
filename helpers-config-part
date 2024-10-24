@@ -103,10 +103,15 @@ root_squash: Provides an important security layer for NFS servers by restricting
 /folder 1<ip>(rw,sync) -  share with server on ip adress
 /folder *(ro,sync) – read only, shared with everyone
 
-/folder <ip>/24(rw,sync)
-/folder <ip>(rw,sync)
+nano /etc/exports
+
+/lvm/ishod7 172.25.250.0/24(rw,sync)
+/lvm/raid-1 172.25.250.o(ro,sync)
 /folder <ip>(rw,sync)
 /folder *(ro,sync)
+
+/lvm/ishod7 172.25.250.9(rw,sync)
+/lvm/raid-5 172.25.250.9(ro,sync)
 
 verify with exportfs -v or exportfs -rav
 If we want to enable sharing on servers defined in the exports file, we configure the NFS client on those servers, 
