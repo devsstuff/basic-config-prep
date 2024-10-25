@@ -91,6 +91,11 @@ lvcreate --type raid5  -n raid-5-volume -L 1GiB -i 2 vg-groupb
 
 Check with lsblk, LVM needs to show at least two partitions
 
+Configure automatic mounting at boot:
+- find UUID of logical volume with sudo blkid /device-path
+- add an entry to /etc/fstab to mount the logical volume automatically at boot
+UUID=some-value /lvm/is xfs defaults 0 0
+
 NFS 
 It should be instsalled let just enable it
 systemctl enable  --now nfs-server
@@ -146,3 +151,14 @@ na /folder-1 and /folder-2
 
 mount /device-path /folder-
 verify with sudo lsblk
+
+Make the mounts persistent across reboots, find uuid with
+sudo stratis filesystem list or
+with sudo lsblk –output=UUID /dev/stratis/lab05pool/fs1
+sudo lsblk –output=UUID /dev/stratis/lab05pool/fs2
+
+Append the following lines to /etc/fstab:
+UUID=uuid-for-fs1 /lab-05/stratis/fs1 xfs defaults,x-systemd.requires=stratisd.service
+0 0
+UUID=uuid-for-fs2 /lab-05/stratis/fs2 xfs defaults,x-systemd.requires=stratisd.service
+0 0
