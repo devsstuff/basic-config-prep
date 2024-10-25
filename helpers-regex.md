@@ -364,7 +364,7 @@ sudo grep -lR 'password' /
 
 **Evo napomena vezano za libre office, iako napravim align screenshota i teksta, screenshot bez razloga zavrsi na iducoj stranici. 
 Pa ako mozemo to uzeti u obzir ako za neki rijeseni zadatak slika nije tocno ispod teksta.**
-
+https://student.algebra.hr/pretinac/main.php
 https://rha.ole.redhat.com/rha/app/login
 
 dkelava
