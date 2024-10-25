@@ -74,6 +74,14 @@ server {
    error_log /var/log/nginx/error.log;
 }
 
+server {
+   listen 80; 
+   server_name www.rhcsa.local;
+   root /var/www/www.rhcsa.local;
+   access_log /var/log/nginx/access.log;
+   error_log /var/log/nginx/error.log;
+}
+
 nginx -t – expect permission errors but it worked locally
 
 systemctl restart nginx
