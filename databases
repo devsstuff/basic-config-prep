@@ -3,7 +3,7 @@ mysql-server installation
 sudo dnf install mysql-server -y
 sudo systemctl enable --now mysqld
 
-sudo mysql_secure_installation
+sudo mysql_secure_installation -- ovo nije potrebno, moze se i s defaultnim passwordom ('')
 sudo mysql -u root -p
 
 CREATE DATABASE ispitDB;
