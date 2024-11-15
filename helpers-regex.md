@@ -366,6 +366,3 @@ sudo grep -lR 'password' /
 Pa ako mozemo to uzeti u obzir ako za neki rijeseni zadatak slika nije tocno ispod teksta.**
 https://student.algebra.hr/pretinac/main.php
 https://rha.ole.redhat.com/rha/app/login
-
-dkelava
-43<[f0W:
