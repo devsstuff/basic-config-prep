@@ -58,3 +58,27 @@ mysql -u root -p -e "SHOW DATABASES; use midterm2DB; SHOW TABLES; SELECT user, h
 ----
 mysql -u root -p -e "CREATE DATABASE examDB; CREATE USER 'dbuser'@'%' IDENTIFIED BY 'password'; GRANT ALL PRIVILEGES ON examDB.* TO 'dbuser'@'%'; FLUSH PRIVILEGES;"
 mysql -u root -p -e "SHOW DATABASES; SELECT user, host FROM mysql.user; SHOW GRANTS FOR 'dbuser'@'%';"
+
+
+
+-------------------------------------- MATE TEXT ----------------------------------------
+
+# izrada backup DB
+mysqldump -u root -p examDB > /db-backups/examDB_backup.sql   
+
+# Na SERVERA, napravite restore „examDB“ baze u „newExamDB“ bazu.
+## 1. korak -> kreirati novu DB 'newExamDB'
+mysql -u root
+CREATE DATABASE newExamDB;
+exit
+
+## 2. korak -> migracija podataka na novu DB
+mysql -u root newExamDB < /db-backups/examDB_backup/sql
+
+## 3. koral -> Provjera
+mysql -u root
+SHOW TABLES;
+SELECT * FROM examTable1;
+
+
+
