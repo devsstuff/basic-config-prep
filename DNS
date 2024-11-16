@@ -1,1 +1,6 @@
+--------------- MATE TEXT ------------------------
+
+# Konfiguracija DNS (BIND) servera {kreiranje domene ispitna.local. sa poddomenama apliakacija i wiki}
+
+##Priprema sustava na oba servera te kreiranje i konfiguracija zona
 
