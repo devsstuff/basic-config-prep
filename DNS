@@ -3,4 +3,72 @@
 # Konfiguracija DNS (BIND) servera {kreiranje domene ispitna.local. sa poddomenama apliakacija i wiki}
 
 ##Priprema sustava na oba servera te kreiranje i konfiguracija zona
+sudo dnf install -y bind bind-utils
+
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+
+sudo vim /etc/named.conf
+
+##Priprema konfiguracijskog file-a
+options {
+    listen-on port 53 { any; };
+    directory "/var/named";
+    allow-query { any; };
+};
+
+zone "ispitna.local" {
+    type master;
+    file "/var/named/ispitna.local.db";
+};
+
+##Kreiranje zone file-a
+sudo vim /var/named/ispitna.local.db
+
+##Zone file
+
+$TTL 86400
+@   IN  SOA     ns1.ispitna.local. root.ispitna.local. (
+                2024111601 ; Serial
+                3600       ; Refresh
+                1800       ; Retry
+                604800     ; Expire
+                86400 )    ; Minimum TTL
+
+    IN  NS      ns1.ispitna.local.
+
+ns1         IN  A       172.25.250.10
+aplikacija  IN  A       172.25.250.11
+wiki        IN  A       172.25.250.11
+
+##Postavljanje dozvola
+sudo chown root:named /var/named/ispitna.local.db
+sudo chmod 640 /var/named/ispitna.local.db
+
+##Pokretanje BIND servera
+sudo systemctl enable named
+sudo systemctl start named
+sudo systemctl status named
+
+##Testiranje konfiguracije
+dig @SERVERA_IP aplikacija.ispitna.local # dig +short @172.25.250.10 aplikacija.ispitna.local
+dig @SERVERA_IP wiki.ispitna.local # dig +short @172.25.250.10 wiki.ispitna.local
+
+---------------------------------------------------------------------------------------------------------------
+
+#Konfiguracija WORKSTATION stroja za posluzivanje ispitna.local zone
+
+##Priprema sustava
+chattr -i /etc/resolv.conf
+
+##Izmjene na konfiguracijskom file-u
+vim /etc/resolv.conf # iskljuciti prethodno zatecenu konfiguraciju
+
+##Sadrzaj file-a resolv.conf
+search ispitna.local
+nameserver 172.25.250.10
+
+##Testiranje konfiguracije
+dig aplikacija.ispitna.local      # dig +short ....
+dig wiki.ispitna.local            # dig +short ....
 
