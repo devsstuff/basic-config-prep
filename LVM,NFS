@@ -1,1 +1,13 @@
+--------------- MATE TEXT ------------------------
+
+# Kreiranje VG vg-groupa na serverb sa velicinom bloka od 1024B
+
+## Aktivnosti na serverb na LVM sustavu
+
+lsblk
+pvcreate /dev/vdb /dev/vdc /dev/vdd
+vgcreate --physical-extentsize 1024B vg-groupa /dev/sdb /dev/sdc /dev/sdd
+lvdisplay vg-gruopa
+
+
 
