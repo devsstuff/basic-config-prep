@@ -1,13 +1,38 @@
 --------------- MATE TEXT ------------------------
 
+
+LVM
+
+
 # Kreiranje VG vg-groupa na serverb sa velicinom bloka od 1024B
 
 ## Aktivnosti na serverb na LVM sustavu
 
 lsblk
 pvcreate /dev/vdb /dev/vdc /dev/vdd
-vgcreate --physical-extentsize 1024B vg-groupa /dev/sdb /dev/sdc /dev/sdd
+vgcreate --physical-extentsize 1024B vg-groupa /dev/sdb /dev/sdc /dev/sdd      !!! Samo ako se u narednim zadacima NE TRAZI RAID polje ( RAID_block_size >= 4KiB, min 4 KiB! ) !!! U suprotnom nek odjebe!
 lvdisplay vg-gruopa
+
+
+# Kreiranje LV "lvm-volume" velicine 200MB sa XFS dat.sustavom, montirano na /lvm/ishod7
+
+lvcreate -L 200M -n lvm-volume vg-groupa
+mkfs.xfs /dev/vg-groupa/lvm-volume
+mkdir -p /lvm/ishod7
+mount /dev/vg-groupa/lvm-volume /lvm/ishod7
+df -h | grep /lvm/ishod7
+
+## Automount
+
+ /dev/vg-groupa/lvm-volume /lvm/ishod7 xfs defaults 0 0  ->  vim /etc/fstab
+
+## Provjera
+
+mount -a
+
+
+# Kreiranje LV "raid-1-volume"
+
 
 
 
