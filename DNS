@@ -2,7 +2,7 @@
 
 # Konfiguracija DNS (BIND) servera {kreiranje domene ispitna.local. sa poddomenama apliakacija i wiki}
 
-##Priprema sustava na oba servera te kreiranje i konfiguracija zona
+## Priprema sustava na oba servera te kreiranje i konfiguracija zona
 sudo dnf install -y bind bind-utils
 
 sudo systemctl stop firewalld
@@ -10,7 +10,7 @@ sudo systemctl disable firewalld
 
 sudo vim /etc/named.conf
 
-##Priprema konfiguracijskog file-a
+## Priprema konfiguracijskog file-a
 options {
     listen-on port 53 { any; };
     directory "/var/named";
@@ -22,7 +22,7 @@ zone "ispitna.local" {
     file "/var/named/ispitna.local.db";
 };
 
-##Kreiranje zone file-a
+## Kreiranje zone file-a
 sudo vim /var/named/ispitna.local.db
 
 ##Zone file
@@ -45,20 +45,20 @@ wiki        IN  A       172.25.250.11
 sudo chown root:named /var/named/ispitna.local.db
 sudo chmod 640 /var/named/ispitna.local.db
 
-##Pokretanje BIND servera
+## Pokretanje BIND servera
 sudo systemctl enable named
 sudo systemctl start named
 sudo systemctl status named
 
-##Testiranje konfiguracije
+## Testiranje konfiguracije
 dig @SERVERA_IP aplikacija.ispitna.local # dig +short @172.25.250.10 aplikacija.ispitna.local
 dig @SERVERA_IP wiki.ispitna.local # dig +short @172.25.250.10 wiki.ispitna.local
 
 ---------------------------------------------------------------------------------------------------------------
 
-#Konfiguracija WORKSTATION stroja za posluzivanje ispitna.local zone
+# Konfiguracija WORKSTATION stroja za posluzivanje ispitna.local zone
 
-##Priprema sustava
+## Priprema sustava
 chattr -i /etc/resolv.conf
 
 ##Izmjene na konfiguracijskom file-u
@@ -71,4 +71,117 @@ nameserver 172.25.250.10
 ##Testiranje konfiguracije
 dig aplikacija.ispitna.local      # dig +short ....
 dig wiki.ispitna.local            # dig +short ....
+
+
+--------------------------------------------------------------------------------------------------------------
+
+# Konfiguracija sustava za medjusobno razmijenjivanje e-mail poruka (POSTFIX)
+
+## Priprema sustava na serverb
+
+sudo dnf install -y postfix
+sudo systemctl start postfix
+sudo systemctl enable postfix
+
+sudo systemctl stop firewall.service
+sudo systemctl status firewall.service
+
+
+### Konfiguracija conf file-a -> sudo nano /etc/postfix/main.cf
+
+myhostname = mail.ispitna.local
+mydomain = ispitna.local
+myorigin = $mydomain
+inet_interfaces = all
+inet_protocols = ipv4
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+mynetworks = 172.25.250.0/24
+home_mailbox = Maildir/
+
+### Kreiranje user-a ishod3
+sudo adduser ishod3
+sudo passwd ishod3
+
+
+## Priprema sustava na servera -> sudo nano /var/named/ispitna.local.db
+
+sudo systemctl stop firewall.service
+sudo systemctl status firewall.service
+
+### Dodati "mail" retke
+$TTL 86400
+@   IN  SOA     ns1.ispitna.local. root.ispitna.local. (
+             2024111602 ; Serial
+             3600       ; Refresh
+             1800       ; Retry
+             604800     ; Expire
+             86400 )    ; Minimum TTL
+
+    IN  NS      ns1.ispitna.local.
+    IN  MX      10 mail.ispitna.local.
+
+### Restart DNS servera
+systemctl restart named
+
+
+## Priprema sustava na workstation VM
+
+### Provjeriti DNS MX zapis za Domenu
+
+dig @SERVERA_IP mx ispitna.local
+
+
+### Konfiguracija conf file-a -> sudo nano /etc/postfix/main.cf
+
+myhostname = workstation.ispitna.local
+mydomain = ispitna.local
+myorigin = $mydomain
+inet_interfaces = localhost
+relayhost = [mail.ispitna.local]
+inet_protocols = ipv4
+
+
+### Instalacija i pokretanje Postfix servera na workstation
+
+sudo dnf install -y postfix
+sudo systemctl start postfix
+sudo systemctl enable postfix
+
+-----
+
+# Slanje testnog mail-a putem telnet protokola sa Workstation VM na serverb
+
+## Slanje mail poruke sa Workstation-a na serverb user-u ishod3
+
+telnet SERVERB_IP 25
+    EHLO workstation.ispitna.local
+    MAIL FROM:student@ispitna.local
+    RCPT TO:<ishod3@ispitna.local>
+    DATA
+    Subject: Testna poruka
+    From: sender@ispitna.local
+    To: ishod3@ispitna.local
+    
+    Ovo je testna poruka poslana putem telnet-a.
+    .
+    QUIT
+
+## Provjera primljene poruke na serverb user ishod 3
+
+sudo cat /home/ishod3/Mailbox/New/*
+
+---------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
 
