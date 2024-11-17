@@ -2,7 +2,7 @@
 
 
 LVM
-
+------
 
 # Kreiranje VG vg-groupa na serverb sa velicinom bloka od 1024B
 
@@ -11,7 +11,7 @@ LVM
 lsblk
 pvcreate /dev/vdb /dev/vdc /dev/vdd
 vgcreate --physical-extentsize 1024B vg-groupa /dev/sdb /dev/sdc /dev/sdd      !!! Samo ako se u narednim zadacima NE TRAZI RAID polje ( RAID_block_size >= 4KiB, min 4 KiB! ) !!! U suprotnom nek odjebe!
-lvdisplay vg-gruopa
+vgdisplay vg-gruopa
 
 
 # Kreiranje LV "lvm-volume" velicine 200MB sa XFS dat.sustavom, montirano na /lvm/ishod7
@@ -31,7 +31,56 @@ df -h | grep /lvm/ishod7
 mount -a
 
 
-# Kreiranje LV "raid-1-volume"
+# Kreiranje LV "raid-1-volume" velicine 1GiB moniranog na /lvm/raid-1
+
+lvcreate --type raid1 -L 1G -m 1 -n raid-1-volume vg-groupa
+lvdismkfs.xfs /dev/vg-groupa/raid-1-volume
+lvdisplay vg-groupa
+mkfs.xfs /dev/vg-groupa/raid-1-volume
+mkdir -p /lvm/raid-1
+mount /dev/vg-groupa/raid-1-volume /lvm/raid-1
+df -h | grep /lvm/raid-1				### Provjera uspjesnosti montiranja
+
+/dev/vg-groupa/raid-1-volume /lvm/raid-1 xfs defaults 0 0				->				vim /etc/fstab
+
+mount -a
+
+lvs -a -o +devices								### Provjera RAID statusa unutar LVM-a
+
+---------------------------------------------------------------------------------------
+
+NFS
+---------
+
+# Priprema sustava
+
+sudo dnf install nfs-utils -y
+sudo systemctl enable --now nfs-server
+sudo systemctl status nfs-server
+
+/lvm/ishod7 172.25.250.0/24(rw,sync,no_root_squash)   =>   sudo nano /etc/exports
+/lvm/raid-1 172.25.250.0/24(ro,sync,no_root_squash)   =>   sudo nano /etc/exports
+
+sudo exportfs -r   ### Provjera konfiguracije
+sudo exportfs -v   ### Provjera putanje
+
+sudo firewall-cmd --permanent --add-service=nfs							|
+sudo firewall-cmd --permanent --add-service=mountd				|    ### ili jednostavno ugasiti FW
+sudo firewall-cmd --permanent --add-service=rpc-bind	 |
+sudo firewall-cmd --reload 																											|
+
+SERVERB:/lvm/ishod7 /mnt/ishod7 nfs defaults 0 0					=>				vim /etc/fstab
+SERVERB:/lvm/raid-1 /mnt/raid-1 nfs ro 0 0											=>				vim /etc/fstab
+
+
+
+
+
+
+
+
+
+
 
 
 
