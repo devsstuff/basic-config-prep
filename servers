@@ -89,3 +89,47 @@ systemctl restart nginx
 test in browser add on workstation /etc/hosts zapis <ip> server-name, this is used for test on workstation and with curl
 turn off firewall and selinux
 
+---------------------------------------------------- MATE TEXT -------------------------------------------------------------------
+
+# Izrada backup-a za konfiguracijske file-ove Bind servera
+
+## Automatizacija putam skripte
+
+sudo vim /usr/local/bin/backup_config.sh
+
+
+## Kreiranje skripte
+
+#!/bin/bash
+
+# Kreiranje backup direktorijuma
+mkdir -p /web-backups/
+
+# Kopiranje konfiguracijskih fajlova
+cp /var/named/ispitna.local.db /web-backups/
+
+# Potvrda
+echo "Backup završen. Svi fajlovi su pohranjeni u /web-backups/"
+
+
+## Kreiranje dozvola za izvrsavanje skripte 
+
+chmod +x /usr/local/bin/backup_config.sh
+
+
+## Pokretanje skripte
+
+/usr/local/bin/backup_config.sh
+
+
+## Provjera
+
+ls -l /web-backups/
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
