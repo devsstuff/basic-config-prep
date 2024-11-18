@@ -1,0 +1,91 @@
+------------------------ MATE TEXT ----------------------------------
+
+# Primjer rjesavanja zadatka sa particioniranjem i montiranjem particija na /particije/ext4-b(ext4-c, xfs-c, swap)
+## /dev/vdb
+### ext4 (primary) => 300MiB
+### swap (primary) => 1GiB
+
+## /dev/vdc
+## ext4 (priimary) => 1GiB
+## xfs (primary) => 500MiB
+
+1. korak, Particioniranje diska
+
+sudo fdisk /dev/vdb            ## Prilagoditi broj particije i velicinu iste trazenom 
+  n,p,1(2),+300M (+1G)
+
+sudo fdisk /dev/vdc            ## Prilagoditi broj particije i velicinu iste trazenom
+  n,p,1(2),+500M (+1G)
+
+
+2. korak, Formatiranje particija
+
+sudo mkfs.ext4 /dev/vdb1
+sudo mkswap /dev/vdb2
+
+sudo mkfs.ext4 /dev/vdc1
+sudo mkfs.xfs /dev/vdc2
+
+
+3. korak, Montiranje particija
+
+sudo mkdir -p /particije/ext4-b /particije/ext4-c /particije/xfs-c
+
+sudo swapon /dev/vdb2
+
+/dev/vdb2 swap swap defaults 0 0                        =>      vim /etc/fstab
+/dev/vdb1 /particije/ext4-b ext4 defaults 0 0
+/dev/vdc1 /particije/ext4-c ext4 defaults 0 0
+/dev/vdc2 /particije/xfs-c xfs defaults 0 0
+
+sudo mount -a
+
+-------------------------------------
+
+# Primjer zadatka sa upravljanjem korisnicima i grupama
+
+sudo useradd uprava1
+sudo useradd uprava2
+sudo useradd vlasnik
+sudo useradd adminko
+
+sudo groupadd uprava
+sudo groupadd vlasnici
+
+sudo usermod -g vlasnici vlasnik
+
+sudo usermod -aG uprava uprava1
+sudo usermod -aG uprava uprava2
+
+---------
+
+# Kreiranje direktorija i postavljanje prava
+
+sudo mkdir -p /dijeljeno/uprava /dijeljeno/vlasnici
+sudo touch /dijeljeno/uprava/grupa_A_uprava.txt /dijeljeno/vlasnici/grupa_A_vlasnici.txt
+
+sudo chown -R adminko:adminko /dijeljeno/uprava /dijeljeno/vlasnici          ## Postavite adminka za vlasnika oba direktorija
+
+sudo chmod 770 /dijeljeno/uprava                                             ## Postavite prava za grupu uprava
+sudo chown -R adminko:uprava /dijeljeno/uprava
+
+sudo chmod 770 /dijeljeno/vlasnici                                           ## Postavite prava za grupu vlasnici:
+sudo chown -R adminko:vlasnici /dijeljeno/vlasnici
+
+sudo chmod 755 /dijeljeno/uprava                                             ## Postavite prava za čitanje datoteka za ostale korisnike nad direktorijem uprava
+
+sudo chmod 770 /dijeljeno/vlasnici                                           ## Uklonite sva prava za ostale korisnike nad direktorijem vlasnici
+
+
+---------
+
+# Ispis svih prava nad datotekama grupa_A_vlasnici.txt i grupa_A_uprava.txt
+
+ls -l /dijeljeno/uprava/grupa_A_uprava.txt /dijeljeno/vlasnici/grupa_A_vlasnici.txt
+
+
+
+
+
+
+
