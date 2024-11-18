@@ -1,1 +1,34 @@
+------------------------------ MATE TEXT ---------------------------------------
+
+# Provjera konfiguracije IP adresa na svim mreznim suceljima
+
+ip addr show     
+ifconfig
+ip -4 addr | grep 'inet'
+nmcli device show
+
+---------------
+
+# Ispis svih routa iz routing table
+
+ip route show
+route -n
+ip -6 route show
+
+---------------
+
+# Promijena hostname servera
+
+sudo hostnamectl set-hostname ispit-ime-prezime
+hostnamectl        ## Kontrola
+
+### ili
+
+ispit-ime-prezime        => vim /etc/hostname
+
+----------------
+
+
+
+
 
