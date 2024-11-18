@@ -1,1 +1,44 @@
+------------------ MATE TEXT ----------------------------------
+
+# Provjera prisutnosti nekog paketa na sustavu PM-om dnf
+
+dnf list installed isc-dhcp-server
+
+## Primjer sa nginx serverom
+
+dnf list installed nginx    ili    rpm -q nginx
+
+
+
+# Provjera skripti koje se pokrecu prilikom instalacije i deinstalacije paketa
+
+rpm -q --scripts paket_ime    ##  Ova naredba prikazuje sve skripte (npr. %post, %preun, %postun) koje su vezane za instalaciju (install) i deinstalaciju (uninstall) paketa.
+
+
+# Instalacija i provjera aplikacije "htop" PM-om dnf
+
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm    ## Dohvacanje repozitorija
+sudo dnf repolist        ## Provjera da li je repositorij aktivan
+dnf install htop         ## Instalacija paketa
+htop                     ## Pokretanje htop aplikacije
+
+
+# Provjera trenutno prijavljenih korisnika na Linux sustavu
+
+who                      ## Ova naredba prikazuje popis svih trenutno prijavljenih korisnika, 
+                         ## zajedno s informacijama o njihovim terminalima, vremenu prijave i IP adresi 
+                         ## (ako su prijavljeni putem mreže)
+
+w                        ## Ova naredba prikazuje detaljnije informacije o trenutno prijavljenim korisnicima, 
+                            uključujući koliko dugo su prijavljeni, što trenutno rade i opterećenje sustava.
+
+users                    ## Ova naredba daje sažet prikaz korisničkih imena trenutno prijavljenih korisnika, 
+                         ## bez dodatnih informacija.
+
+last -a | grep still     ## Ova naredba prikazuje aktivne korisnike zajedno s informacijama o njihovoj sesiji.
+
+
+
+
+
 
