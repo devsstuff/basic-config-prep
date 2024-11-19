@@ -1,1 +1,95 @@
+# Trajana izmjena statusa SELinux-a u ENFORCING mode
+
+sudo sed -i 's/^SELINUX=.*/SELINUX=enforcing/' /etc/selinux/config
+cat /etc/selinux/config | grep SELINUX=                                ## Potvrda
+
+-----------------
+
+# Posluzivanje web stanice iz dir /webapp na portu 85
+
+sudo mkdir -p /webapp
+sudo chmod 755 /webapp
+
+Listen 85        =>    vim /etc/httpd/conf/httpd.conf
+
+<VirtualHost *:88>
+    DocumentRoot "/webapp"
+    <Directory "/webapp">
+        AllowOverride None
+        Require all granted
+    </Directory>
+</VirtualHost>
+
+sudo semanage port -a -t http_port_t -p tcp 85
+
+sudo systemctl restart httpd
+
+curl http://<SERVER_IP>:85
+
+----------------------
+
+# Rad Apache servera sa upaljenim FW
+
+sudo firewall-cmd --permanent --add-port=85/tcp
+sudo firewall-cmd --reload
+
+sudo firewall-cmd --list-all
+
+----------------------
+
+# Promijena prioriteta procesa
+
+sudo renice 12 -p $(pgrep httpd)      ##    Ovom naredbom se svi procesi koji pripdaju httpd servisu mijenjaju na zeljenu vrijednost
+sudo renice 12 -p $(pgrep httpd)      ##    Provjera
+
+----------------------
+
+# Promijena prioritet za korisnika student na 3
+
+student  hard  priority  3      =>    vim /etc/security/limits.conf
+student  soft  priority  3
+
+nice                                  ## Nakon prijave pod ispravnim user-om
+
+----------------------
+
+# Brojanje linija u datoteci /usr/share/dict/words koje počinju slovima "mom"
+
+grep -c "^mom" /usr/share/dict/words
+
+-----------------------
+
+# Ispis linija koje sadrže tekst "cat" uz broj retka
+
+grep -n "cat" /usr/share/dict/words
+
+-----------------------
+
+# Ispis riječi duljine točno 7 slova
+
+grep -E "^.{7}$" /usr/share/dict/words
+
+----------------------
+
+# Pronalaženje datoteka koje počinju s "password"
+
+find / -type f -name "password*"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
