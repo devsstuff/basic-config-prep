@@ -129,8 +129,8 @@ renice -n 7 -u student
 
 # Osigurati da Apache server radi sa ukljucenim firewall-om na odgovarajucim portovima
 
-sudo firewall-cmd --permanent --add-service=http
-sudo firewall-cmd --permanent --add-service=https
+sudo firewall-cmd --permanent --add-service=http                ## firewall-cmd --permanent --add-port=80/tcp            ### ili na ovaj nacin. Ima isti ucinak na FW.
+sudo firewall-cmd --permanent --add-service=https               ## firewall-cmd --permanent --add-port=443/tcp
 sudo firewall-cmd --reload
 
 sudo firewall-cmd --list-all                ##     Provjera
@@ -152,6 +152,40 @@ sudo restorecon -Rv /var/www/html
 ## Potvrda
 
 ls -ldZ /var/www/html
+
+
+---------------------
+
+# Promijena porta na kojem radi Apache '99' sa 'Enforcing' mehanizmom na SELinux servisu
+
+SELINUX=enforcing            =>     /etc/selinux/config
+--
+Listen 99                    =>     vim /etc/httpd/conf/httpd.conf
+--
+<VirtualHost *:99>                            ## Ako se koristi VirtualHost
+    DocumentRoot "/var/www/html"
+    ServerName your_domain_or_IP
+</VirtualHost>
+--
+sudo semanage port -l | grep http_port_t
+sudo semanage port -a -t http_port_t -p tcp 99        ## Dodavanje novog porta
+--
+sudo firewall-cmd --permanent --add-port=99/tcp
+sudo firewall-cmd --reload
+sudo firewall-cmd --list-all
+--
+sudo systemctl restart httpd
+sudo systemctl status httpd
+--
+curl http://localhost:99
+##ili
+curl http://<SERVER_IP>:99                            ## Ako se testira sa drugog sustava
+
+
+
+
+
+
 
 
 
