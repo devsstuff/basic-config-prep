@@ -44,7 +44,7 @@ sudo renice 12 -p $(pgrep httpd)      ##    Provjera
 
 ----------------------
 
-# Promijena prioritet za korisnika student na 3
+# Promjena prioritet za korisnika student na 3
 
 student  hard  priority  3      =>    vim /etc/security/limits.conf
 student  soft  priority  3
@@ -52,6 +52,26 @@ student  soft  priority  3
 nice                                  ## Nakon prijave pod ispravnim user-om
 
 ----------------------
+
+# Ogranicavanje broja datoteka koje smije koristiti pojedini korisnik
+
+sudo vim /etc/security/limits.d/ishod3_remote.conf        =>    kreirati conf datoteku /etc/security/limits.d/'korinik'.conf
+
+'korisnik'    soft    nofile    'broj_datoteka'            =>    unutar /etc/security/limits.d/'korinik'.conf
+'korisnik'    hard    nofile    'broj_datoteka'
+
+sudo vim /etc/systemd/system.conf        ##        Prilagoditi globalnu systemd konfiguraciju
+
+DefaultLimitNOFILE='broj_datoteka'        =>        /etc/systemd/system.conf
+
+sudo systemctl daemon-reexec                ## Restart systemd 
+
+su - 'korisnik'
+ulimit -n                                    ## Potvrda broja datoteka
+
+--------------------------
+
+
 
 # Brojanje linija u datoteci /usr/share/dict/words koje počinju slovima "mom"
 
@@ -101,7 +121,7 @@ renice -n 19 $(pgrep mysql)
 
 -----------------------
 
-# Priijena zadane vrijednosti prioriteta svih procesa kosinika student na 5
+# Promijena zadane vrijednosti prioriteta svih procesa kosinika student na 5
 
 renice -n 7 -u student
 
