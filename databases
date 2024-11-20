@@ -64,6 +64,7 @@ mysql -u root -p -e "SHOW DATABASES; SELECT user, host FROM mysql.user; SHOW GRA
 -------------------------------------- MATE TEXT ----------------------------------------
 
 # izrada backup DB
+mkdir -p /db-backups/
 mysqldump -u root -p examDB > /db-backups/examDB_backup.sql   
 
 # Na SERVERA, napravite restore „examDB“ baze u „newExamDB“ bazu.
@@ -73,11 +74,11 @@ CREATE DATABASE newExamDB;
 exit
 
 ## 2. korak -> migracija podataka na novu DB
-mysql -u root newExamDB < /db-backups/examDB_backup/sql
+mysql -u root newExamDB < /db-backups/examDB_backup/sql            ### Ako nema gresaka u terminalu, uspjesno je rijesen zadatak.
 
 ## 3. koral -> Provjera
 mysql -u root
-SHOW TABLES;
+SHOW DATABASES;
 SELECT * FROM examTable1;
 
 
