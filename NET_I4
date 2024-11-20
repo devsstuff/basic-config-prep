@@ -24,9 +24,131 @@ hostnamectl        ## Kontrola
 
 ### ili
 
-ispit-ime-prezime        => vim /etc/hostname
+<IP_ADRESA>        ispit-ime-prezime        => vim /etc/hosts
 
-----------------
+--------------------------------------------------------------------------------------
+
+SSHD primjeri
+-------------------------
+
+# Kreirajte SSH direktorij za korisnika ishod4 na oba stroja
+
+mkdir -p /home/ishod4/.ssh
+chown -R ishod4:ishod4 /home/ishod4/.ssh
+chmod 700 /home/ishod4/.ssh
+
+# Konfiguracija SSH pristupa s SERVERA na SERVERB
+
+su - ishod4
+
+# Generirajte SSH ključeve za korisnika ishod4 (bez postavljanja lozinke za ključ):
+
+ssh-keygen -t rsa
+
+#Kopirajte javni ključ na SERVERB
+
+ssh-copy-id ishod4@SERVERB
+
+# Testirajte SSH pristup s SERVERA na SERVERB
+
+ssh ishod4@SERVERB
+
+# Kopiranje sigurnosnih podataka i slanje na SERVERB
+
+## Na SERVERA, kao korisnik ishod4, kreirajte direktorij backup
+
+mkdir ~/backup
+
+## Napravite sigurnosnu kopiju konfiguracijskih datoteka korisnika ishod4
+
+cp ~/.bashrc ~/.ssh/id_rsa ~/.ssh/authorized_keys ~/backup/
+
+## Pomoću SCP komande prenesite sigurnosne podatke na SERVERB u direktorij backup
+
+scp -r ~/backup ishod4@SERVERB:/home/ishod4/
+
+## Prijavite se na SERVERB i provjerite jesu li podaci uspješno preneseni
+
+ssh ishod4@SERVERB
+ls ~/backup
+
+--------------------------------------------------
+
+##  Na SERVERB kreirajte korisnika ishod4
+
+sudo useradd ishod4
+sudo passwd ishod4
+
+## Na SERVERA, kao korisnik ishod4, generirajte SSH ključeve (bez lozinke za ključ):
+
+sudo -u ishod4 ssh-keygen -t rsa -b 4096
+
+## Kopirajte javni ključ s SERVERA na SERVERB koristeći ssh-copy-id:
+
+ssh-copy-id ishod4@SERVERB                      ### Ovdje će se tražiti da unesete lozinku korisnika ishod4 na SERVERB.
+
+## Provjerite SSH pristup s SERVERA na SERVERB:
+
+ssh ishod4@SERVERB
+
+-------------------------------------------------
+
+# Ograničavanje SSH pristupa i prijenos datoteka
+
+##  Na SERVERB, ograničite SSH pristup samo na korisnika ishod4. Otvorite SSH konfiguracijsku datoteku:
+
+sudo nano /etc/ssh/sshd_config
+
+## Dodajte ili uredite liniju:
+
+AllowUsers ishod4
+
+## Spremite promjene i ponovno pokrenite SSH servis:
+
+sudo systemctl restart sshd
+
+## Na SERVERA, prijavite se kao ishod4 i prenesite datoteku koristeći SCP:,
+
+scp /path/to/file.txt ishod4@SERVERB:/home/ishod4/
+
+-------------------------------------------------
+
+# Automatizacija prijenosa sigurnosnih kopija
+
+## Na SERVERA, kreirajte shell skriptu za sigurnosnu kopiju. Kao korisnik ishod4, napravite skriptu:
+
+nano /home/ishod4/backup_script.sh
+
+## Unutar skripte, dodajte sljedeći sadržaj:
+
+#!/bin/bash
+tar -czf /home/ishod4/backup_$(date +%F).tar.gz /path/to/data
+scp /home/ishod4/backup_$(date +%F).tar.gz ishod4@SERVERB:/home/ishod4/
+
+## Napravite skriptu izvršivom:
+
+chmod +x /home/ishod4/backup_script.sh
+
+## Automatizirajte zadatak koristeći cron. Kao ishod4, uredite cron zadatke:
+
+crontab -e
+
+## Dodajte liniju koja će izvršavati skriptu svaki dan u ponoć:
+
+0 0 * * * /home/ishod4/backup_script.sh                                ### S ovim postavkama, sigurnosne kopije će se automatski stvarati i slati na SERVERB.
+
+-------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 
 
 
