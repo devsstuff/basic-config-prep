@@ -81,4 +81,24 @@ SHOW TABLES;
 SELECT * FROM examTable1;
 
 
+---------
+
+# Kreiranje nove baze podataka "baza_podataka", unutar nje nove tablice "nova_tablica" sa jednim poljem. 
+# Te kreiranje novog korisnika "korisnikDB" koji ima sva prava iskljucivo na toj tablici unutar ove baze podataka.
+
+CREATE DATABASE IF NOT EXISTS baza_podataka;
+USE baza_podataka;
+
+CREATE TABLE nova_tablica (
+    id INT AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE USER 'korisnikDB'@'localhost' IDENTIFIED BY 'password';      ## CREATE USER 'korisnikDB'@'%' IDENTIFIED BY 'password123';
+GRANT ALL PRIVILEGES ON baza_podataka.nova_tablica TO 'korisnikDB'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'korisnikDB'@'localhost';
+
+
+
 
