@@ -77,6 +77,12 @@ find / -type f -name "password*"
 
 ----------------------
 
+# Pronalaženje datoteka koje ayvrsavaju s "*izraz"
+
+find / -type f -name "*izraz"        =>        find / -type f -name "*izraz" | head -n 'n'        ## Ako je predug print rjesenja
+
+----------------------
+
 
 # Ispis i objašnjenje stanja mysql-server procesa
 
