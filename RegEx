@@ -1,1 +1,18 @@
+# Start services during starting starting the server
 
+systemctl list-unit-files --type=service | grep enabled | head -n NN
+
+
+# List the 0 B size folders on whole system
+
+find / -type f -size 0 2>/dev/null
+
+
+# List first 5 words 7 characters long from the file
+
+grep -E '^.{7}$' /file | head -n 5
+
+
+# List the lines starting with downstring
+
+grep -n '^[a-z]' /usr/share/dict/words
