@@ -2,6 +2,7 @@
 
 sudo sed -i 's/^SELINUX=.*/SELINUX=enforcing/' /etc/selinux/config
 cat /etc/selinux/config | grep SELINUX=                                ## Potvrda
+sudo getenforcing                                                      ## Potvrda
 
 -----------------
 
@@ -30,10 +31,11 @@ curl http://<SERVER_IP>:85
 
 # Rad Apache servera sa upaljenim FW
 
-sudo firewall-cmd --permanent --add-port=85/tcp
+sudo firewall-cmd --permanent --zone=publice --add-service=http
+sudo firewall-cmd --permanent --zone=publice --add-service=https
 sudo firewall-cmd --reload
-
 sudo firewall-cmd --list-all
+
 
 ----------------------
 
