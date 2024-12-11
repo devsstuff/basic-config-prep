@@ -1,3 +1,53 @@
+# Count line number containing all vowel's 
+
+grep -iE 'a.*e.*i.*o.*u|a.*e.*i.*u.*o|a.*i.*e.*o.*u|a.*i.*e.*u.*o|a.*i.*u.*e.*o|a.*o.*e.*i.*u' /usr/share/dict/words | wc -l
+
+----------------------------
+
+# Count all lines starting with downcase and row number as well
+
+grep -n '^[a-z]' /usr/share/dict/words
+
+-----------------------------
+
+# Print first 5 words 7 caracters long
+
+grep -E '^.{7}$' /usr/share/dict/words | head -n 5
+
+-----------------------------
+
+# Print all folders size 0B from file system
+
+find / -type f -size 0c 2>/dev/null | head -n 20
+
+----------------------------
+
+# Print all services starting at server start
+
+systemctl list-unit-files --type=service --state=enabled      { | head -n xx }
+
+# + count started services
+
+systemctl list-unit-files --type=service --state=enabled | grep '.service' | wc =l
+
+-----------------------------
+
+# Check CPU usage of the SSH service
+
+top -p $(pgrep -d ',' sshd)        { htop -p $(pgrep -d ',' sshd) }
+
+# ili
+
+ps -C sshd -o %cpu,%mem,cmd
+
+-----------------------------
+
+
+
+
+
+
+
 # Start services during starting starting the server
 
 systemctl list-unit-files --type=service | grep enabled | head -n NN
