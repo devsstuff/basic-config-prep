@@ -95,12 +95,18 @@ myorigin = $mydomain
 inet_interfaces = all
 inet_protocols = ipv4
 mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
-mynetworks = 172.25.250.0/24
+mynetworks = 127.0.0.1/8 172.25.250.0/24
 home_mailbox = Maildir/
 
 ### Kreiranje user-a ishod3
 sudo adduser ishod3
 sudo passwd ishod3
+
+## Napraviti restart postfix servera !!!
+
+systemctl restart postfix
+
+------------------
 
 
 ## Priprema sustava na servera -> sudo nano /var/named/ispitna.local.db
@@ -118,7 +124,12 @@ $TTL 86400
              86400 )    ; Minimum TTL
 
     IN  NS      ns1.ispitna.local.
-    IN  MX      10 mail.ispitna.local.
+    IN  MX      10 mail.ispitna.local.           !!!
+
+ns1         IN  A       172.25.250.10
+aplikacija  IN  A       172.25.250.11
+wiki        IN  A       172.25.250.11
+mail        IN  A       172.25.250.10            !!!
 
 ### Restart DNS servera
 systemctl restart named
