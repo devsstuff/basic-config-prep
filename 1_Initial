@@ -18,9 +18,10 @@ rpm -q --scripts paket_ime    ##  Ova naredba prikazuje sve skripte (npr. %post,
 # Instalacija i provjera aplikacije "htop" PM-om dnf
 
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm    ## Dohvacanje repozitorija
-sudo dnf repolist        ## Provjera da li je repositorij aktivan
-dnf install htop         ## Instalacija paketa
-htop                     ## Pokretanje htop aplikacije
+sudo dnf repolist                  ## Provjera da li je repositorij aktivan
+sudo dnf install epel-release      ## Instalacija epel-a
+dnf install htop                   ## Instalacija paketa
+htop                               ## Pokretanje htop aplikacije
 
 
 # Provjera trenutno prijavljenih korisnika na Linux sustavu
@@ -36,6 +37,18 @@ users                    ## Ova naredba daje sažet prikaz korisničkih imena tr
                          ## bez dodatnih informacija.
 
 last -a | grep still     ## Ova naredba prikazuje aktivne korisnike zajedno s informacijama o njihovoj sesiji.
+
+
+-------------------------------------
+
+Koji paket omogućuje pokretanje naredbe „tcpdump“? Kojom biste naredbom instalirali
+paket koji sadrži biblioteku (library) „libssl.so.3“?
+
+
+dnf provides */libssl.so.3          ## Provjera paketa koji sadrzava odredjenu datoteku
+
+
+sudo dnf install openssl-libs        ## Instalacija paketa
 
 
 
