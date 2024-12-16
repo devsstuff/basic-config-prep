@@ -51,6 +51,26 @@ dnf provides */libssl.so.3          ## Provjera paketa koji sadrzava odredjenu d
 sudo dnf install openssl-libs        ## Instalacija paketa
 
 
+--------------------------------------
+
+### Fail2ban
+
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm    ## Dohvacanje repozitorija
+sudo dnf repolist                                                                          ## Provjera da li je repositorij aktivan
+sudo dnf install epel-release                                                              ## Instalacija epel-a
+dnf install fail2ban                                                                        ## Instalacija paketa
+sudo dnf install fail2ban --exclude=fail2ban-selinux                                        ## Pokusaj bez selinux-policy
+
+### RHEL i EPEL nisu uskladjeni te iz tog razloga ne mogu instalirati fail2ban paket.
+Kako paket fail2ban zahtjeva odredenu verziju selinux-policya a koja nije trenutno 
+dostupna sustav odbija instalirati fail2ban aplikaciju.
+RHEL "kasni" s izdavanjem posljednjih verzija paketa jer daje prioritet stabilnosti, a
+fail2ban-selinux upravo trazi posljednju verziju selinux-policy paketa te onemogucuje instalacij
+kako bi sprijecio potencijalne sigurnosne probleme.
+
+
+
+
 
 
 
