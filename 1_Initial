@@ -1,3 +1,4 @@
+
 ------------------ MATE TEXT ----------------------------------
 
 # Provjera prisutnosti nekog paketa na sustavu PM-om dnf
@@ -18,8 +19,8 @@ rpm -q --scripts paket_ime    ##  Ova naredba prikazuje sve skripte (npr. %post,
 # Instalacija i provjera aplikacije "htop" PM-om dnf
 
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm    ## Dohvacanje repozitorija
-sudo dnf repolist                  ## Provjera da li je repositorij aktivan
-sudo dnf install epel-release      ## Instalacija epel-a
+sudo dnf repolist                                              ## Provjera da li je repositorij aktivan
+sudo dnf install epel-release                                  ## Instalacija epel-a 
 dnf install htop                   ## Instalacija paketa
 htop                               ## Pokretanje htop aplikacije
 
@@ -56,11 +57,17 @@ sudo dnf install openssl-libs        ## Instalacija paketa
 ### Fail2ban
 
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm    ## Dohvacanje repozitorija
-sudo dnf repolist                                                                          ## Provjera da li je repositorij aktivan
-sudo dnf install epel-release                                                              ## Instalacija epel-a
-dnf install fail2ban                                                                        ## Instalacija paketa
-sudo dnf install fail2ban --exclude=fail2ban-selinux                                        ## Pokusaj bez selinux-policy
+sudo dnf repolist                                              ## Provjera da li je repositorij aktivan
+sudo dnf install epel-release                                  ## Instalacija epel-a
+dnf list | grep -i selinux | less                              ## Print svih selinux servisa
+dnf remove selinux-policy-targeted-38.1.23-1.el9.noarch        ## brisanje navedenog servisa  
+dnf install fail2ban                                           ## Instalacija paketa
+systemctl enable fail2ban.service
+systemctl start fail2ban.service
+systemctl status fail2ban.service
 
+
+## Treba napraviti remove linux-policy paketa kako bi se moglo instalirati fail2ban program.
 ### RHEL i EPEL nisu uskladjeni te iz tog razloga ne mogu instalirati fail2ban paket.
 Kako paket fail2ban zahtjeva odredenu verziju selinux-policya a koja nije trenutno 
 dostupna sustav odbija instalirati fail2ban aplikaciju.
