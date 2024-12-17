@@ -10,6 +10,8 @@ CREATE DATABASE ispitDB;
 CREATE USER 'databaseuser'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON ispitDB.* TO 'databaseuser'@'localhost'; 
 FLUSH PRIVILEGES;
+SHOW GRANTS FOR 'databaseuser'@'localhost';
+
 
 CREATE DATABASE examDB;
 CREATE USER 'dbuser'@'%' IDENTIFIED BY 'password';
@@ -79,7 +81,8 @@ mysql -u root newExamDB < /db-backups/examDB_backup/sql            ### Ako nema 
 ## 3. koral -> Provjera
 mysql -u root
 SHOW DATABASES;
-SELECT * FROM examTable1;
+USE newExamDB;
+SHOW TABLES;
 
 
 ---------
