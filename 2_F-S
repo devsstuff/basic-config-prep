@@ -1,5 +1,32 @@
 ------------------------ MATE TEXT ----------------------------------
 
+# Formiranje n primarnih particija na disku te njihovo montiranje na sustav (GPT!!!)
+
+mkpart /dev/vdb mklabel gpt
+parted /dev/vdb > naziv (vdb2) > FS type (xfs) > start (200MB) > end (700MB)
+mkfs.xfs /dev/vdb2
+
+parted /dev/vdb > naziv (swap) > skip  >  start  >  end
+mkswap /dev/vdb1
+swapon /dev/vdb1
+
+lsblk --fs /dev/vdb
+
+vim /etc/fstab
+UUID    /lokacija    FS_type    defaults      0      0
+
+mkdir /lokacija
+chown root:root /lokacija
+chmod 755 /lokcacija
+
+mount -a
+systemctl daemon-reload
+
+lsblk --fs /dev/vdb
+
+---------------------------------------------------------------------------
+
+
 # Primjer rjesavanja zadatka sa particioniranjem i montiranjem particija na /particije/ext4-b(ext4-c, xfs-c, swap)
 ## /dev/vdb
 ### ext4 (primary) => 300MiB
