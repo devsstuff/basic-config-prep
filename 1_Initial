@@ -1,3 +1,18 @@
+# Izuzinanje aplikacije iz update procesa. httpd nece instalirati novu verziju neovisno o stanju u repozitoriju
+
+rpm -q httpd                                              ## Provjera verzije 
+dnf install python3-dnf-plugin-versionlock                ## instalacija versionlock-a
+dnf versionlock add httpd                                 ## Dodavanje predmetne alikacije na listu
+dnf versionlock list                                      ## Potvrda liste
+
+ili
+
+vim /etc/dnf/dnf.conf                                     ## Kada se koristi automatsko azuriranje poketa
+exclude=httpd*                                            ## Dodati u conf file 
+sudo dnf update                                           ## Test
+less /var/log/dnf.rpm.log | grep httpd                    ## logovi koji potvrdjuju ignoriranje update-a
+
+
 
 ------------------ MATE TEXT ----------------------------------
 
@@ -9,20 +24,24 @@ dnf list installed isc-dhcp-server
 
 dnf list installed nginx    ili    rpm -q nginx
 
-
+----------------------------------------------------
 
 # Provjera skripti koje se pokrecu prilikom instalacije i deinstalacije paketa
 
-rpm -q --scripts paket_ime    ##  Ova naredba prikazuje sve skripte (npr. %post, %preun, %postun) koje su vezane za instalaciju (install) i deinstalaciju (uninstall) paketa.
+rpm -q --scripts paket_ime    ##  Ova naredba prikazuje sve skripte (npr. %post, %preun, %postun) 
+                              ##  koje su vezane za instalaciju (install) i deinstalaciju (uninstall) paketa.
 
+----------------------------------------------------
 
 # Instalacija i provjera aplikacije "htop" PM-om dnf
 
-sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm    ## Dohvacanje repozitorija
-sudo dnf repolist                                              ## Provjera da li je repositorij aktivan
-sudo dnf install epel-release                                  ## Instalacija epel-a 
-dnf install htop                   ## Instalacija paketa
-htop                               ## Pokretanje htop aplikacije
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm     ## Dohvacanje repozitorija
+sudo dnf repolist                                                                           ## Provjera da li je repositorij aktivan
+sudo dnf install epel-release                                                               ## Instalacija epel-a 
+dnf install htop                                                                            ## Instalacija paketa
+htop                                                                                        ## Pokretanje htop aplikacije
+
+------------------------------------------------------ 
 
 
 # Provjera trenutno prijavljenih korisnika na Linux sustavu
