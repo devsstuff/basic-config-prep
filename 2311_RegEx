@@ -1,6 +1,16 @@
+#  GREP BASIC
+
+grep -n keyword file                            ## line numbers
+
+grep -v keyword file                            ## Ineverted search
+
+grep -i keyword file                            ## Case insensitive
+
+
+
 # Count line number containing all vowel's 
 
-grep -iE 'a.*e.*i.*o.*u|a.*e.*i.*u.*o|a.*i.*e.*o.*u|a.*i.*e.*u.*o|a.*i.*u.*e.*o|a.*o.*e.*i.*u' /usr/share/dict/words | wc -l
+grep -icE 'a.*e.*i.*o.*u' /usr/share/dict/words | wc -l
 
 ----------------------------
 
@@ -28,7 +38,7 @@ systemctl list-unit-files --type=service --state=enabled      { | head -n xx }
 
 # + count started services
 
-systemctl list-unit-files --type=service --state=enabled | grep '.service' | wc =l
+systemctl list-unit-files --type=service --state=enabled | grep '.service' | wc -l
 
 -----------------------------
 
@@ -36,33 +46,60 @@ systemctl list-unit-files --type=service --state=enabled | grep '.service' | wc 
 
 top -p $(pgrep -d ',' sshd)        { htop -p $(pgrep -d ',' sshd) }
 
-# ili
-
-ps -C sshd -o %cpu,%mem,cmd
-
------------------------------
-
-
-
-
-
-
+------------------------------
 
 # Start services during starting starting the server
 
 systemctl list-unit-files --type=service | grep enabled | head -n NN
 
+-------------------------------
 
 # List the 0 B size folders on whole system
 
 find / -type f -size 0 2>/dev/null
 
+----------------------------------
 
 # List first 5 words 7 characters long from the file
 
 grep -E '^.{7}$' /file | head -n 5
 
+-------------------------------------
 
 # List the lines starting with downstring
 
 grep -n '^[a-z]' /usr/share/dict/words
+
+----------------------------------------
+
+# adjust all 'user' proceses on value n
+
+renice n -u user                          ## Adjusting the new value
+
+top -u user                               ## conformation
+
+----------------------------------------
+
+# Adjust firewalld so Apache web server can work in all zones
+
+dnf install httpd -y
+systemctl enable httpd
+systemctl start httpd
+
+sudo firewall-cmd --zone=public --add-service=http --permanent          {external/instenal/dmz/trusted/work/home/block/drop}
+sudo firewall-cmd --zone=public --add-service=https --permanent
+
+
+-----------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
