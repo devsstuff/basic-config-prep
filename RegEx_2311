@@ -92,7 +92,20 @@ sudo firewall-cmd --zone=public --add-service=https --permanent
 
 -----------------------------------------
 
+# Make everything so that Apache can work with SELinux Enforcing state. Make Enforcing state active and enabled. Prove functionality 
+# one VirtualHost on the system.
 
+SELINUX=Enforcing          >         vim /etc/selinux/config
+grep '^SELINUX' /etc/selinux/config
+
+systemctl enable --now httpd
+
+semanage fcontext -a \
+-t httpd_sys_content_t '/custom(/.*)?'
+
+restorecon -Rv /custom
+
+curl http://servera/index.html
 
 
 
