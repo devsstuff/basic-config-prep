@@ -13,7 +13,7 @@ sudo chmod 755 /webapp
 
 Listen 85        =>    vim /etc/httpd/conf/httpd.conf
 
-<VirtualHost *:88>
+<VirtualHost *:85>
     DocumentRoot "/webapp"
     <Directory "/webapp">
         AllowOverride None
