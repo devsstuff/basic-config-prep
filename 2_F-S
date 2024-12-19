@@ -111,6 +111,12 @@ sudo chmod 770 /dijeljeno/vlasnici                                           ## 
 ls -l /dijeljeno/uprava/grupa_A_uprava.txt /dijeljeno/vlasnici/grupa_A_vlasnici.txt
 
 
+---------------------
+
+Pocetni sektor particije ne smije mijenjati mjesto radi>
+  Ocuvanja konzistentnosti podataka i strukture particije. Zato jer pocetni sektor sadrzi podatke o boot loaderu, tablicama datotecnog sustava
+  te metapodacima o samoj particiji koje koristi OS kao i alati za upravljanje particijama.
+
 
 
 
