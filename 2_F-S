@@ -84,6 +84,24 @@ sudo usermod -g vlasnici vlasnik
 sudo usermod -aG uprava uprava1
 sudo usermod -aG uprava uprava2
 
+sudo mkdir -p /custom-home
+sudo chmod 755 /custom-home
+sudo chown root:root /custom-home
+
+HOME=/custom-home               > /vim/default/useradd        ### Ovako se svakom korisniku mijenja podrazumijevani /home dir
+
+sudo usermod -d /custom-home/<username> -m <username>         ### Ovako se rucno dodaje /home dir svakom korisniku
+
+cat /etc/passwd | grep "/custom-home/"                        ### Potvrda
+
+touch "test." > /custom-home/uprava1/hello-world.txt
+
+ls -la /custom-home/uprava1
+
+
+
+
+
 ---------
 
 # Kreiranje direktorija i postavljanje prava
