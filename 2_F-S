@@ -2,7 +2,7 @@
 
 # Formiranje n primarnih particija na disku te njihovo montiranje na sustav (GPT!!!)
 
-mkpart /dev/vdb mklabel gpt
+parted /dev/vdb mklabel gpt
 parted /dev/vdb > naziv (vdb2) > FS type (xfs) > start (200MB) > end (700MB)
 mkfs.xfs /dev/vdb2
 
